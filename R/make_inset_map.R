@@ -1,0 +1,98 @@
+#' Create a map with an inset context map using ggplot2
+#'
+#' Works with `layer_location_context`
+#'
+#' @param map plot or map created with ggplot2
+#' @param inset plot or map created with ggplot2
+#' @param location sf or bbox object
+#' @param context sf or bbox object with location context, Default: NULL
+#' @param position inset map position, Default: 'bottomright'
+#' @param nudge_x nudge X position of inset map, Default: 0
+#' @param nudge_y nudge Y position of inset map, Default: 0
+#' @return ggplot2 with inset map added using patchwork
+#' @examples
+#' \dontrun{
+#' if (interactive()) {
+#'   map <-
+#'     ggplot2::ggplot() +
+#'     overedge::layer_location_data(data = mapbaltimore::get_area("neighborhood", "Harwood")) +
+#'     overedge::layer_neatline(
+#'       data = mapbaltimore::get_area("neighborhood", "Harwood"),
+#'       asp = "8.5:11"
+#'     )
+#'
+#'   location <-
+#'     mapbaltimore::get_area("neighborhood", "Harwood")
+#'
+#'   context <-
+#'     mapbaltimore::baltimore_city
+#'
+#'   inset_context_map(
+#'     map = map,
+#'     location = location,
+#'     context = context,
+#'     position = "bottomright",
+#'     nudge_x = -0.05,
+#'     nudge_y = 0.05
+#'   )
+#' }
+#' }
+#' @seealso
+#'  \code{\link[ggplot2]{ggplot}}
+#'  \code{\link[patchwork]{inset_element}}
+#' @rdname inset_context_map
+#' @export
+#' @importFrom ggplot2 ggplot
+#' @importFrom patchwork inset_element
+make_inset_map <-
+  function(map = NULL,
+           inset = NULL,
+           location = NULL,
+           context = NULL,
+           position = "bottomright",
+           nudge_x = 0,
+           nudge_y = 0) {
+    if (!is.null(location) && !is.null(context)) {
+      inset <-
+        ggplot2::ggplot() +
+        layer_location_context(
+          data = location,
+          context = context
+        )
+    }
+
+    top <- 0.5
+    bottom <- 0.5
+    left <- 0.5
+    right <- 0.5
+
+    if (grepl("top", position)) {
+      top <- 1
+      bottom <- 0.75
+    } else if (grepl("bottom", position)) {
+      top <- 0.25
+      bottom <- 0
+    }
+
+    if (grepl("left", position)) {
+      left <- 0
+      right <- 0.25
+    } else if (grepl("right", position)) {
+      left <- 0.75
+      right <- 1
+    }
+
+    left <- left + nudge_x
+    right <- right + nudge_x
+    top <- top + nudge_y
+    bottom <- bottom + nudge_y
+
+    map +
+      patchwork::inset_element(inset,
+        left = left,
+        bottom = bottom,
+        right = right,
+        top = top,
+        align_to = "full"
+      )
+  }

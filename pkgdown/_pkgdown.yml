@@ -1,0 +1,11 @@
+url: ~
+template:
+  package: preferably
+  bootstrap: 5
+reference:
+- title: Layers for ggplot2 maps
+  contents:
+  - starts_with("layer")
+- title: Composing ggplot2 maps
+  contents:
+  - starts_with("make")
