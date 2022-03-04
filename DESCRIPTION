@@ -17,5 +17,6 @@ Imports:
     sf,
     ggplot2,
     overedge,
-    patchwork
+    patchwork,
+    smoothr
 RoxygenNote: 7.1.2

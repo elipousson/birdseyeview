@@ -6,12 +6,14 @@
 #' @param context_aes list with aesthetic attributes for context area; must include fill and color; defaults to list(fill = "white", color = "black", ...)
 #' @param neatline If `TRUE`, add a neatline layer to the returned layer
 #' @inheritParams overedge::layer_location_data
-#' @name layer_location_context
+#' @name layer_show_context
+#' @aliases layer_location_context
+#' @family layer
 #' @export
 #' @importFrom overedge check_sf layer_location_data layer_neatline
 #' @importFrom sf st_crs
 #' @importFrom ggplot2 theme_void
-layer_location_context <- function(data = NULL,
+layer_show_context <- function(data = NULL,
                                    fill = "gray70",
                                    color = "black",
                                    context = NULL,

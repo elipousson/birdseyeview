@@ -274,7 +274,7 @@ basemap_mapbox +
 ```{r}
 inset <-
   ggplot() +
-  layer_location_context(
+  layer_show_context(
     data = area,
     fill = "blue",
     alpha = 0.5,
@@ -309,7 +309,6 @@ map_admin_boundaries <- function(type = NULL) {
       data = type,
       package = params$data$package,
       location = params$bbox,
-   #   dist = params$map$bbox_dist,
       crop = TRUE,
       crs = 3857
     )

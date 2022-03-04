@@ -1,6 +1,6 @@
 #' Create a map with an inset context map using ggplot2
 #'
-#' Works with `layer_location_context`
+#' Works with `layer_show_context`
 #'
 #' @param map plot or map created with ggplot2
 #' @param inset plot or map created with ggplot2
@@ -9,6 +9,7 @@
 #' @param position inset map position, Default: 'bottomright'
 #' @param nudge_x nudge X position of inset map, Default: 0
 #' @param nudge_y nudge Y position of inset map, Default: 0
+#' @param ... Additional parameters passed to layer_show_context
 #' @return ggplot2 with inset map added using patchwork
 #' @examples
 #' \dontrun{
@@ -40,7 +41,7 @@
 #' @seealso
 #'  \code{\link[ggplot2]{ggplot}}
 #'  \code{\link[patchwork]{inset_element}}
-#' @rdname inset_context_map
+#' @rdname make_inset_map
 #' @export
 #' @importFrom ggplot2 ggplot
 #' @importFrom patchwork inset_element
@@ -51,13 +52,15 @@ make_inset_map <-
            context = NULL,
            position = "bottomright",
            nudge_x = 0,
-           nudge_y = 0) {
+           nudge_y = 0,
+           ...) {
     if (!is.null(location) && !is.null(context)) {
       inset <-
         ggplot2::ggplot() +
-        layer_location_context(
+        layer_show_context(
           data = location,
-          context = context
+          context = context,
+          ...
         )
     }
 

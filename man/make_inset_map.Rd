@@ -11,7 +11,8 @@ make_inset_map(
   context = NULL,
   position = "bottomright",
   nudge_x = 0,
-  nudge_y = 0
+  nudge_y = 0,
+  ...
 )
 }
 \arguments{
@@ -28,12 +29,14 @@ make_inset_map(
 \item{nudge_x}{nudge X position of inset map, Default: 0}
 
 \item{nudge_y}{nudge Y position of inset map, Default: 0}
+
+\item{...}{Additional parameters passed to layer_show_context}
 }
 \value{
 ggplot2 with inset map added using patchwork
 }
 \description{
-Works with `layer_location_context`
+Works with `layer_show_context`
 }
 \examples{
 \dontrun{
