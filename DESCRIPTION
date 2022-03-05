@@ -2,8 +2,9 @@ Package: birdseyeview
 Type: Package
 Title: Make Planning Maps, Tables, and Visualizations
 Version: 0.1.0
-Author: Eli Pousson <eli.pousson@gmail.com>
-Maintainer: Eli Pousson <eli.pousson@gmail.com>
+Authors@R: 
+    person("Eli", "Pousson", , "eli.pousson@gmail.com", role = c("aut", "cre"),
+           comment = c(ORCID = "0000-0001-8280-1706"))
 Description: This package helps create maps, tables, and figures for planning documents using open spatial data. 
     birdseyeview is designed to work with the overedge package and relies on sf, ggplot2, and gt.
 License: MIT + file LICENSE
@@ -18,5 +19,9 @@ Imports:
     ggplot2,
     overedge,
     patchwork,
-    smoothr
+    smoothr,
+    purrr,
+    gt,
+    dplyr,
+    tidyselect
 RoxygenNote: 7.1.2

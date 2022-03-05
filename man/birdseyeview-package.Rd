@@ -8,4 +8,8 @@
 \description{
 This package helps create maps, tables, and figures for planning documents using open spatial data. birdseyeview is designed to work with the overedge package and relies on sf, ggplot2, and gt.
 }
+\author{
+\strong{Maintainer}: Eli Pousson \email{eli.pousson@gmail.com} (\href{https://orcid.org/0000-0001-8280-1706}{ORCID})
+
+}
 \keyword{internal}
