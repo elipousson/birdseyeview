@@ -25,3 +25,4 @@ Imports:
     dplyr,
     tidyselect
 RoxygenNote: 7.1.2
+URL: https://elipousson.github.io/birdseyeview/
