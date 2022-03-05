@@ -1,7 +1,7 @@
 #' Make marker map
 #'
 #' @param data Data for mapping
-#' @noRd
+#' @name make_marker_map
 #' @export
 make_marker_map <- function(data,
                             mapping = ggplot2::aes(),
@@ -36,6 +36,8 @@ make_marker_map <- function(data,
 #'
 #' @param layers defaults to FALSE
 #' @inheritParams overedge::layer_location_data
+#' @rdname make_marker_map
+#' @name make_group_layers
 #' @export
 make_group_layers <- function(data,
                               mapping = ggplot2::aes(),
@@ -68,6 +70,8 @@ make_group_layers <- function(data,
 
 #' Prep markers for mapping
 #'
+#' @rdname make_marker_map
+#' @name prep_markers
 #' @export
 prep_markers <- function(data = NULL,
                          groupname_col = "group",

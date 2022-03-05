@@ -1,7 +1,7 @@
 url: ~
 template:
-  package: preferably
   bootstrap: 5
+  package: preferably
 reference:
 - title: Layers for ggplot2 maps
   contents:
@@ -9,3 +9,6 @@ reference:
 - title: Composing ggplot2 maps
   contents:
   - starts_with("make")
+- title: Creating tables with gt
+  contents:
+  - starts_with("tbl")
