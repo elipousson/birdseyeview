@@ -3,9 +3,9 @@
 #' @param data Data for mapping
 #' @name make_marker_map
 #' @export
-make_marker_map <- function(data,
-                            mapping = ggplot2::aes(),
-                            prep = TRUE,
+layer_show_markers <- function(data,
+                            mapping = NULL,
+                            prep = FALSE,
                             groupname_col = "group",
                             groupmeta = NULL,
                             style = NULL, # "facet",
@@ -24,9 +24,10 @@ make_marker_map <- function(data,
   }
 
   if (!is.null(style) && (style == "facet")) {
-    ggplot2::ggplot() +
-      ggplot2::geom_sf(data = data, mapping = mapping) +
-      ggplot2::facet_wrap(~group)
+    list(
+      overedge::layer_location_data(data = data, mapping = mapping, ...),
+      ggplot2::facet_wrap(~ .data[[groupname_col]])
+    )
   } else {
     make_group_layers(data = data, groupname_col = groupname_col, mapping = mapping, ...)
   }
@@ -42,7 +43,7 @@ make_marker_map <- function(data,
 make_group_layers <- function(data,
                               mapping = ggplot2::aes(),
                               groupname_col = "group",
-                              layers = FALSE,
+                              layers = TRUE,
                               ...) {
   if (layers) {
     purrr::map(

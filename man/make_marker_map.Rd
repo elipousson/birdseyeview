@@ -2,14 +2,15 @@
 % Please edit documentation in R/layer_show_markers.R
 \name{make_marker_map}
 \alias{make_marker_map}
+\alias{layer_show_markers}
 \alias{make_group_layers}
 \alias{prep_markers}
 \title{Make marker map}
 \usage{
-make_marker_map(
+layer_show_markers(
   data,
-  mapping = ggplot2::aes(),
-  prep = TRUE,
+  mapping = NULL,
+  prep = FALSE,
   groupname_col = "group",
   groupmeta = NULL,
   style = NULL,
@@ -22,7 +23,7 @@ make_group_layers(
   data,
   mapping = ggplot2::aes(),
   groupname_col = "group",
-  layers = FALSE,
+  layers = TRUE,
   ...
 )
 
