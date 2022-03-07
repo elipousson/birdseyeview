@@ -1,4 +1,4 @@
-#' Create numbered photo key as a `gt` table
+#' Create numbered photo key as a `gt` table (not working)
 #'
 #' Designed to work with the `overedge::read_sf_exif` function. More information on this approach here <https://elipousson.github.io/posts/2021-03-06-creating-a-key-map-for-photographs-with-r/>
 #'

@@ -34,6 +34,80 @@ remotes::install_github("elipousson/birdseyeview")
 
 ```{r setup}
 library(birdseyeview)
+library(overedge)
+```
+
+
+### Make tables 
+
+```{r gt_geom_sf_rows}
+parks <-
+  get_location_data(
+    data = "parks",
+    package = "mapbaltimore"
+  )
+
+parks %>%
+  dplyr::slice_head(n = 4) %>%
+  dplyr:::select(name, address, park_district, acres, geometry) %>%
+  dplyr::group_by(park_district) %>%
+  gt::gt() %>%
+  gt_geom_sf_rows(fill = "forestgreen", color = "lightgreen", size = 6)
+```
+
+```{r tbl_photo_key, eval = FALSE}
+park_photos <-
+  overedge::get_flickr_photos(
+    user_id = "baltimoreheritage",
+    tags = "druidhillpark",
+    img_size = "m",
+    sort = "date-posted",
+    per_page = 20
+  )
+
+park_photos[1:6, ] %>%
+  dplyr::select(title, datetaken, image_height, image_width, image_url) %>%
+  tbl_photo_key(photo_col = "image_url", orientation = "landscape", number = TRUE)
+```
+
+### Make maps
+
+```{r}
 library(ggplot2)
-library(sf)
+```
+
+
+```{r layer_show_context}
+ggplot() +
+  layer_show_context(
+    data = parks[245, ],
+    fill = "green",
+    context = parks,
+    context_aes = list(fill = "forestgreen", color = "gray60", alpha = 1)
+  )
+```
+
+
+```{r make_group_layers}
+park_district_layers <-
+  make_group_layers(
+    data = parks %>% sf::st_centroid(),
+    mapping = aes(color = name),
+    groupname_col = "park_district"
+  )
+
+clifton_district <-
+  get_location(
+    type = "park_districts",
+    package = "mapbaltimore",
+    name = "Clifton"
+  )
+
+ggplot() +
+  park_district_layers[[1]] +
+  guides(color = "none") +
+  layer_show_location(
+    data = clifton_district
+  ) +
+  theme_void()
 ```
