@@ -23,6 +23,10 @@ Imports:
     purrr,
     gt,
     dplyr,
-    tidyselect
+    tidyselect,
+    magrittr,
+    usethis,
+    rlang,
+    tibble
 RoxygenNote: 7.1.2
 URL: https://elipousson.github.io/birdseyeview/

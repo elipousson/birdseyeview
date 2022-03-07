@@ -2,30 +2,46 @@
 % Please edit documentation in R/tbl_photo_key.R
 \name{tbl_photo_key}
 \alias{tbl_photo_key}
-\title{Create a numbered photo key table}
+\title{Create numbered photo key as a \code{gt} table}
 \usage{
 tbl_photo_key(
   data,
-  img_width = 320,
+  height = 240,
   asp = 0.75,
   photo_col = "photo",
   title_col = "title",
+  title_size = "large",
+  title_align = "right",
   number = FALSE,
   orientation = NULL
 )
 }
 \arguments{
 \item{data}{sf object or data frame with photo column containing the file
-path or url for photos}
+path or url for photos.}
 
-\item{img_width}{Image width.}
+\item{height}{The height in pixels of image in table.}
+
+\item{asp}{Aspect ratio of image (width/height)}
 
 \item{photo_col}{Photo path/url column name.}
 
-\item{title_col}{Photo title/description column name.}
+\item{title_col}{Title/description column name.}
 
-\item{img_height}{Image height.}
+\item{title_size}{Title text size, Default: 'large'}
+
+\item{title_align}{Title tex alignment, Default: 'right'}
+
+\item{number}{If \code{TRUE}, add a number column that will by 20\% of the width of
+the photo column; defaults to \code{FALSE}. There may be a name conflict if the
+dataframe already contains a column named "rowid".}
+
+\item{orientation}{Orientation to filter by if data contains image_width and
+image_height columns.}
 }
 \description{
-Create a numbered photo key table
+Designed to work with the \code{overedge::read_sf_exif} function. More information on this approach here \url{https://elipousson.github.io/posts/2021-03-06-creating-a-key-map-for-photographs-with-r/}
+}
+\details{
+Function naming convention inspired by the {gtsummary} package \url{https://www.danieldsjoberg.com/gtsummary/index.html}
 }
