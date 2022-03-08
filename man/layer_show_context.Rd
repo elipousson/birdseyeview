@@ -11,25 +11,34 @@ layer_show_context(
   color = "black",
   context = NULL,
   context_aes = list(fill = "white", color = "black", alpha = 1, ...),
+  layer_between = NULL,
   crs = NULL,
   neatline = TRUE,
   ...
 )
 }
 \arguments{
-\item{data}{sf object including data in area. data may also be a url or file
-path. data can be the name of a data object or, if package and filetype are
-provided, a cached or external file.}
+\item{data}{sf object with location data}
+
+\item{fill}{Fill color for location data}
+
+\item{color}{Edge color for location data}
 
 \item{context}{sf or bbox object for context area or a `geom` layer}
 
-\item{context_aes}{list with aesthetic attributes for context area; must include fill and color; defaults to list(fill = "white", color = "black", ...)}
+\item{context_aes}{list with aesthetic attributes for context area; must
+include fill and color; defaults to list(fill = "white", color = "black",
+...)}
+
+\item{layer_between}{An optional ggplot2 layer to insert between the context
+layer and the location layer.}
 
 \item{crs}{coordinate reference system to return}
 
 \item{neatline}{If `TRUE`, add a neatline layer to the returned layer}
 
-\item{...}{Parameters passed to selected geom}
+\item{...}{Additional parameters passed to overedge::layer_location_data for
+location}
 }
 \description{
 Intended for use with inset_map function.

@@ -2,7 +2,7 @@
 % Please edit documentation in R/tbl_photo_key.R
 \name{tbl_photo_key}
 \alias{tbl_photo_key}
-\title{Create numbered photo key as a \code{gt} table}
+\title{Create numbered photo key as a \code{gt} table (not working)}
 \usage{
 tbl_photo_key(
   data,

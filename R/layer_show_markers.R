@@ -1,26 +1,50 @@
-#' Make marker map
+#' Add a marker layer to a map with or without numbered markers
 #'
-#' @param data Data for mapping
-#' @name make_marker_map
+#' @inheritParams get_markers
+#' @param get If `TRUE`, pass data to get_markers.
+#' @param number If `TRUE`, number markers using `layer_number_markers`
+#' @param style Style; defaults to `NULL` for `layer_show_markers` (supports
+#'   "facet"); defaults to "roundrect" for `layer_number_markers`,
+#' @param ... Additional parameters passed to `layer_group_data`
+#' @return ggplot2 layers
+#' @examples
+#' \dontrun{
+#' if (interactive()) {
+#'   ggplot2::ggplot() +
+#'     layer_number_markers(
+#'       data = mapbaltimore::parks,
+#'       groupname_col = "park_district"
+#'     )
+#' }
+#' }
+#' @name layer_show_markers
 #' @export
+#' @importFrom overedge layer_location_data
+#' @importFrom ggplot2 facet_wrap
 layer_show_markers <- function(data,
-                            mapping = NULL,
-                            prep = FALSE,
-                            groupname_col = "group",
-                            groupmeta = NULL,
-                            style = NULL, # "facet",
-                            crs = NULL,
-                            fn = NULL,
-                            ...) {
-  if (prep) {
+                               mapping = NULL,
+                               get = TRUE,
+                               groupname_col = "group",
+                               group_meta = NULL,
+                               style = NULL, # "facet",
+                               crs = NULL,
+                               fn = NULL,
+                               number = FALSE,
+                               number_col = NULL,
+                               ...) {
+  if (get) {
     data <-
-      prep_markers(
+      get_markers(
         data = data,
         groupname_col = groupname_col,
-        groupmeta = groupmeta,
+        group_meta = group_meta,
         crs = crs,
         fn = fn
       )
+  }
+
+  if (numbered) {
+    # FIXME: Add in numbering
   }
 
   if (!is.null(style) && (style == "facet")) {
@@ -29,94 +53,91 @@ layer_show_markers <- function(data,
       ggplot2::facet_wrap(~ .data[[groupname_col]])
     )
   } else {
-    make_group_layers(data = data, groupname_col = groupname_col, mapping = mapping, ...)
+    layer_group_data(data = data, groupname_col = groupname_col, mapping = mapping, ...)
   }
 }
 
-#' Make group layers
-#'
-#' @param layers defaults to FALSE
-#' @inheritParams overedge::layer_location_data
-#' @rdname make_marker_map
-#' @name make_group_layers
+#' @rdname layer_show_markers
+#' @name layer_number_markers
+#' @param number_col Name of column with numbers; defaults to NULL.
+#' @param size Marker size, Default: 5
+#' @param ... Additional parameters passed to `overedge::layer_location_data`
+#'   (include label.size, label.padding, and label.r to define alternate style)
 #' @export
-make_group_layers <- function(data,
-                              mapping = ggplot2::aes(),
-                              groupname_col = "group",
-                              layers = TRUE,
-                              ...) {
-  if (layers) {
-    purrr::map(
-      unique(data[[groupname_col]]),
-      ~ overedge::layer_location_data(
-        data = dplyr::filter(data, .data[[groupname_col]] == .x),
-        geom = "sf",
-        mapping = mapping,
-        ...
-      )
-    )
-  } else {
-    purrr::map(
-      unique(data[[groupname_col]]),
-      ~ ggplot2::ggplot() +
-        overedge::layer_location_data(
-          data = dplyr::filter(data, .data[[groupname_col]] == .x),
-          geom = "sf",
-          mapping = mapping,
-          ...
-        )
-    )
-  }
-}
+#' @importFrom dplyr group_by mutate row_number
+#' @importFrom ggplot2 aes unit
+#' @importFrom rlang list2
+#' @importFrom overedge layer_location_data
+#' @importFrom magrittr inset
+layer_number_markers <- function(data,
+                                 number_col = NULL,
+                                 groupname_col = NULL, # "group",
+                                 size = 5,
+                                 style = "roundrect",
+                                 ...) {
+  data <- group_by_col(data, groupname_col = groupname_col)
 
-#' Prep markers for mapping
-#'
-#' @rdname make_marker_map
-#' @name prep_markers
-#' @export
-prep_markers <- function(data = NULL,
-                         groupname_col = "group",
-                         groupmeta = NULL,
-                         geocode = FALSE,
-                         address_col = "address",
-                         geometry = "point",
-                         crs = NULL,
-                         fn = NULL,
-                         ...) {
+  if (is.null(number_col)) {
+    number_col <- "number"
 
-  if (!geocode) {
-    data <-
-      overedge::get_location_data(
-        data = data,
-        crs = crs,
-        ...
-      )
-  } else if ((address_col %in% names(data)) && is.data.frame(data)) {
-    data <- data |>
-      tidygeocoder::geo(address = {{address_col}}) |>
-      overedge::df_to_sf(coords = c("long", "lat"), crs = crs)
+    data <- dplyr::mutate(
+      data,
+      number = dplyr::row_number()
+    )
   }
 
   if (!is.null(groupname_col)) {
-    data <-
-      dplyr::filter(data, !is.na({{ groupname_col }}))
+    mapping <-
+      ggplot2::aes(
+        label = .data[[number_col]],
+        fill = .data[[groupname_col]]
+      )
+  } else {
+    mapping <-
+      ggplot2::aes(label = .data[[number_col]])
   }
 
-  if (!is.null(groupmeta)) {
-    data <-
-      dplyr::left_join(data, groupmeta, by = {{ groupname_col }})
+  dots <- rlang::list2(...)
+
+  if ("roundrect" %in% style) {
+    label.size <- 0.0
+    label.padding <- ggplot2::unit(size / 10, "lines")
+    label.r <- label.padding * 1.5
+  } else {
+    label.size <- dots$label.size
+    label.padding <- dots$label.padding
+    label.r <- dots$label.r
   }
 
-  # FIXME: Use geometry column to set geometry for all markers
-  if (!is.null(cast)) {
-    data <-
-      sf::st_cast(data, to = "POINT")
+  dots <-
+    magrittr::inset(
+      dots,
+      c("label.size", "label.padding", "label.r"),
+      NULL
+    )
+
+  if (!all(c("hjust", "vjust") %in% names(dots))) {
+    hjust <- 0.5
+    vjust <- 0.5
   }
 
-  if (!is.null(fn)) {
-    fn <- rlang::as_function(fn)
-    data <- fn(data)
-  }
-
-  return(data)
+  list(
+    overedge::layer_location_data(
+      data = data,
+      geom = "label",
+      mapping = mapping,
+      size = size,
+      label.size = label.size,
+      label.padding = label.padding,
+      label.r = label.r,
+      hjust = hjust,
+      vjust = vjust,
+      ...
+    ),
+    ggplot2::guides(
+      fill = ggplot2::guide_legend(
+        override.aes = ggplot2::aes(label = "")
+      )
+    )
+  )
 }

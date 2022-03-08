@@ -3,12 +3,15 @@ template:
   bootstrap: 5
   package: preferably
 reference:
-- title: Layers for ggplot2 maps
+- title: Create ggplot2 layers and maps
   contents:
   - starts_with("layer")
-- title: Composing ggplot2 maps
-  contents:
   - starts_with("make")
-- title: Creating tables with gt
+- title: Make and modify gt tables
   contents:
   - starts_with("tbl")
+  - starts_with("gt")
+- title: Utility functions
+  contents:
+  - starts_with("get")
+

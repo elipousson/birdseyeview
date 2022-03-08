@@ -127,7 +127,8 @@ tbl_photo_key <- function(data,
         }
       )
   } else {
-    tbl <- tbl |>
+    # FIXME: Switch to using https://jthomasmock.github.io/gtExtras/reference/gt_img_rows.html
+    tbl <- tbl %>%
       gt::text_transform(
         locations = gt::cells_body(photo_col),
         fn = function(x) {

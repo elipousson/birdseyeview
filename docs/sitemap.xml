@@ -25,7 +25,19 @@
     <loc>https://elipousson.github.io/birdseyeview/reference/birdseyeview-package.html</loc>
   </url>
   <url>
+    <loc>https://elipousson.github.io/birdseyeview/reference/get_markers.html</loc>
+  </url>
+  <url>
+    <loc>https://elipousson.github.io/birdseyeview/reference/gt_geom_sf_rows.html</loc>
+  </url>
+  <url>
     <loc>https://elipousson.github.io/birdseyeview/reference/index.html</loc>
+  </url>
+  <url>
+    <loc>https://elipousson.github.io/birdseyeview/reference/layer_group_data.html</loc>
+  </url>
+  <url>
+    <loc>https://elipousson.github.io/birdseyeview/reference/layer_number_markers.html</loc>
   </url>
   <url>
     <loc>https://elipousson.github.io/birdseyeview/reference/layer_show_context.html</loc>
@@ -34,10 +46,19 @@
     <loc>https://elipousson.github.io/birdseyeview/reference/layer_show_location.html</loc>
   </url>
   <url>
+    <loc>https://elipousson.github.io/birdseyeview/reference/layer_show_markers.html</loc>
+  </url>
+  <url>
     <loc>https://elipousson.github.io/birdseyeview/reference/make_inset_map.html</loc>
   </url>
   <url>
     <loc>https://elipousson.github.io/birdseyeview/reference/make_marker_map.html</loc>
+  </url>
+  <url>
+    <loc>https://elipousson.github.io/birdseyeview/reference/pipe.html</loc>
+  </url>
+  <url>
+    <loc>https://elipousson.github.io/birdseyeview/reference/tbl_marker_key.html</loc>
   </url>
   <url>
     <loc>https://elipousson.github.io/birdseyeview/reference/tbl_photo_key.html</loc>

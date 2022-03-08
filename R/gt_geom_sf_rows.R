@@ -51,7 +51,9 @@ gt_geom_sf_rows <-
       )
 
     if (is.null(fn)) {
-      if (all(sapply(geom_type, function(x) {x %in% c("POLYGON", "MULTIPOLYGON")}))) {
+      if (all(sapply(geom_type, function(x) {
+        x %in% c("POLYGON", "MULTIPOLYGON")
+      }))) {
         fn <- ~ ggplot2::ggplot() +
           overedge::layer_location_data(
             data = .x,
@@ -63,7 +65,9 @@ gt_geom_sf_rows <-
             ...
           ) +
           overedge::layer_neatline(data = .x, asp = asp, expand = TRUE, color = NA)
-      } else if (all(sapply(geom_type, function(x) {x %in% c("POINT", "MULTIPOINT")}))) {
+      } else if (all(sapply(geom_type, function(x) {
+        x %in% c("POINT", "MULTIPOINT")
+      }))) {
         fn <- ~ ggplot2::ggplot() +
           overedge::layer_location_data(
             data = .x,
@@ -73,7 +77,9 @@ gt_geom_sf_rows <-
             ...
           ) +
           overedge::layer_neatline(data = .x, asp = asp, expand = TRUE, color = NA)
-      } else if (all(sapply(geom_type, function(x) {x %in% c("LINESTRING", "MULTILINESTRING")}))) {
+      } else if (all(sapply(geom_type, function(x) {
+        x %in% c("LINESTRING", "MULTILINESTRING")
+      }))) {
         fn <- ~ ggplot2::ggplot() +
           overedge::layer_location_data(
             data = .x,

@@ -3,7 +3,7 @@ pkgdown: 2.0.2
 pkgdown_sha: ~
 articles:
   boundary_location_maps: boundary_location_maps.html
-last_built: 2022-03-05T05:52Z
+last_built: 2022-03-08T02:21Z
 urls:
   reference: https://elipousson.github.io/birdseyeview/reference
   article: https://elipousson.github.io/birdseyeview/articles

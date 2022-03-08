@@ -2,9 +2,18 @@
 #'
 #' Intended for use with inset_map function.
 #'
+#' @param data sf object with location data
+#' @param fill Fill color for location data
+#' @param color Edge color for location data
 #' @param context sf or bbox object for context area or a `geom` layer
-#' @param context_aes list with aesthetic attributes for context area; must include fill and color; defaults to list(fill = "white", color = "black", ...)
+#' @param context_aes list with aesthetic attributes for context area; must
+#'   include fill and color; defaults to list(fill = "white", color = "black",
+#'   ...)
+#' @param layer_between An optional ggplot2 layer to insert between the context
+#'   layer and the location layer.
 #' @param neatline If `TRUE`, add a neatline layer to the returned layer
+#' @param ... Additional parameters passed to overedge::layer_location_data for
+#'   location
 #' @inheritParams overedge::layer_location_data
 #' @name layer_show_context
 #' @aliases layer_location_context
@@ -14,13 +23,14 @@
 #' @importFrom sf st_crs
 #' @importFrom ggplot2 theme_void
 layer_show_context <- function(data = NULL,
-                                   fill = "gray70",
-                                   color = "black",
-                                   context = NULL,
-                                   context_aes = list(fill = "white", color = "black", alpha = 1, ...),
-                                   crs = NULL,
-                                   neatline = TRUE,
-                                   ...) {
+                               fill = "gray70",
+                               color = "black",
+                               context = NULL,
+                               context_aes = list(fill = "white", color = "black", alpha = 1, ...),
+                               layer_between = NULL,
+                               crs = NULL,
+                               neatline = TRUE,
+                               ...) {
   if (overedge::check_sf(data)) {
     if (is.null(crs)) {
       crs <- sf::st_crs(data)
@@ -31,9 +41,10 @@ layer_show_context <- function(data = NULL,
   } else if ("gg" %in% class(data)) {
     location_layer <- data
   }
+
   check_context <- overedge::check_sf(context)
   if (check_context) {
-    context_layer <- overedge::layer_location_data(data = context, fill = context_aes$fill, color = context_aes$color, alpha = context_aes$alpha, crs = crs, ...)
+    context_layer <- overedge::layer_location_data(data = context, fill = context_aes$fill, color = context_aes$color, alpha = context_aes$alpha, crs = crs)
   } else if ("gg" %in% class(context)) {
     context_layer <- context
   }
@@ -50,6 +61,7 @@ layer_show_context <- function(data = NULL,
 
   list(
     context_layer,
+    layer_between,
     location_layer,
     neatline_layer
   )
