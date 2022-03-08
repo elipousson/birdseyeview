@@ -1,66 +1,66 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
-    <loc>https://elipousson.github.io/birdseyeview/404.html</loc>
+    <loc>/404.html</loc>
   </url>
   <url>
-    <loc>https://elipousson.github.io/birdseyeview/LICENSE-text.html</loc>
+    <loc>/LICENSE-text.html</loc>
   </url>
   <url>
-    <loc>https://elipousson.github.io/birdseyeview/LICENSE.html</loc>
+    <loc>/LICENSE.html</loc>
   </url>
   <url>
-    <loc>https://elipousson.github.io/birdseyeview/articles/boundary_location_maps.html</loc>
+    <loc>/articles/boundary_location_maps.html</loc>
   </url>
   <url>
-    <loc>https://elipousson.github.io/birdseyeview/articles/index.html</loc>
+    <loc>/articles/index.html</loc>
   </url>
   <url>
-    <loc>https://elipousson.github.io/birdseyeview/authors.html</loc>
+    <loc>/authors.html</loc>
   </url>
   <url>
-    <loc>https://elipousson.github.io/birdseyeview/index.html</loc>
+    <loc>/index.html</loc>
   </url>
   <url>
-    <loc>https://elipousson.github.io/birdseyeview/reference/birdseyeview-package.html</loc>
+    <loc>/reference/birdseyeview-package.html</loc>
   </url>
   <url>
-    <loc>https://elipousson.github.io/birdseyeview/reference/get_markers.html</loc>
+    <loc>/reference/get_markers.html</loc>
   </url>
   <url>
-    <loc>https://elipousson.github.io/birdseyeview/reference/gt_geom_sf_rows.html</loc>
+    <loc>/reference/gt_geom_sf_rows.html</loc>
   </url>
   <url>
-    <loc>https://elipousson.github.io/birdseyeview/reference/index.html</loc>
+    <loc>/reference/index.html</loc>
   </url>
   <url>
-    <loc>https://elipousson.github.io/birdseyeview/reference/layer_group_data.html</loc>
+    <loc>/reference/layer_group_data.html</loc>
   </url>
   <url>
-    <loc>https://elipousson.github.io/birdseyeview/reference/layer_number_markers.html</loc>
+    <loc>/reference/layer_number_markers.html</loc>
   </url>
   <url>
-    <loc>https://elipousson.github.io/birdseyeview/reference/layer_show_context.html</loc>
+    <loc>/reference/layer_show_context.html</loc>
   </url>
   <url>
-    <loc>https://elipousson.github.io/birdseyeview/reference/layer_show_location.html</loc>
+    <loc>/reference/layer_show_location.html</loc>
   </url>
   <url>
-    <loc>https://elipousson.github.io/birdseyeview/reference/layer_show_markers.html</loc>
+    <loc>/reference/layer_show_markers.html</loc>
   </url>
   <url>
-    <loc>https://elipousson.github.io/birdseyeview/reference/make_inset_map.html</loc>
+    <loc>/reference/make_inset_map.html</loc>
   </url>
   <url>
-    <loc>https://elipousson.github.io/birdseyeview/reference/make_marker_map.html</loc>
+    <loc>/reference/make_marker_map.html</loc>
   </url>
   <url>
-    <loc>https://elipousson.github.io/birdseyeview/reference/pipe.html</loc>
+    <loc>/reference/pipe.html</loc>
   </url>
   <url>
-    <loc>https://elipousson.github.io/birdseyeview/reference/tbl_marker_key.html</loc>
+    <loc>/reference/tbl_marker_key.html</loc>
   </url>
   <url>
-    <loc>https://elipousson.github.io/birdseyeview/reference/tbl_photo_key.html</loc>
+    <loc>/reference/tbl_photo_key.html</loc>
   </url>
 </urlset>
