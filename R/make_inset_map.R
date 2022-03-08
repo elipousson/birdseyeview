@@ -91,7 +91,8 @@ make_inset_map <-
     bottom <- bottom + nudge_y
 
     map +
-      patchwork::inset_element(inset,
+      patchwork::inset_element(
+        p = inset,
         left = left,
         bottom = bottom,
         right = right,

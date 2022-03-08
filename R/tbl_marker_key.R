@@ -18,7 +18,6 @@ tbl_marker_key <- function(data,
                            title_col = NULL,
                            groupname_col = NULL,
                            number_col = NULL) {
-
   data <- group_by_col(data, groupname_col = groupname_col)
 
   if (is.null(number_col) && !("number" %in% names(data))) {
