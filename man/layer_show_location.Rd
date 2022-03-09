@@ -70,7 +70,9 @@ id is provided.}
 \code{\link[sf]{st_union}} and the names are combined into a single value.
 Default: \code{FALSE}.}
 
-\item{crs}{coordinate reference system to return}
+\item{crs}{Coordinate reference system to return; defaults to NULL which
+returns data using the same coordinate reference system as the provided
+type of location.}
 
 \item{color}{Color for location; defaults to "black".}
 

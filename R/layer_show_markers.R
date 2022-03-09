@@ -115,7 +115,6 @@ layer_number_markers <- function(data,
   dots <- rlang::list2(...)
 
   if ("roundrect" %in% style) {
-
     label.size <- 0.0
     label.padding <- ggplot2::unit(size / 10, "lines")
     label.r <- label.padding * 1.5
@@ -150,7 +149,6 @@ layer_number_markers <- function(data,
           vjust = purrr::zap()
         )
       )
-
   }
 
   list(

@@ -29,6 +29,7 @@ Imports:
     rlang,
     tibble,
     tidygeocoder,
-    utils
+    utils,
+    snapbox
 RoxygenNote: 7.1.2
 URL: https://elipousson.github.io/birdseyeview/
