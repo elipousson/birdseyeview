@@ -68,6 +68,7 @@ layer_show_markers <- function(data,
 #' @importFrom rlang list2
 #' @importFrom purrr list_modify zap
 #' @importFrom usethis ui_stop
+#' @importFrom utils modifyList
 #' @importFrom overedge layer_location_data
 layer_number_markers <- function(data,
                                  mapping = NULL,
@@ -94,7 +95,7 @@ layer_number_markers <- function(data,
 
   if (!is.null(groupname_col)) {
     mapping <-
-      modifyList(
+      utils::modifyList(
         ggplot2::aes(
           label = .data[[number_col]],
           fill = .data[[groupname_col]]
@@ -103,7 +104,7 @@ layer_number_markers <- function(data,
       )
   } else {
     mapping <-
-      modifyList(
+      utils::modifyList(
         ggplot2::aes(
           label = .data[[number_col]]
         ),
