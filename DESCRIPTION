@@ -31,6 +31,9 @@ Imports:
     tidygeocoder,
     utils,
     snapbox
+Remotes:
+    elipousson/overedge,
+    anthonynorth/snapbox
 RoxygenNote: 7.1.2
 Roxygen: list(markdown = TRUE)
 URL: https://elipousson.github.io/birdseyeview/
