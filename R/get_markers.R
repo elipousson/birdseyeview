@@ -21,7 +21,7 @@
 get_markers <- function(data,
                         groupname_col = "group",
                         group_meta = NULL,
-                        group_join = sf::st_intersects(),
+                        group_join = sf::st_intersects,
                         geocode = FALSE,
                         address_col = "address",
                         point = TRUE,
@@ -36,26 +36,27 @@ get_markers <- function(data,
         ...
       )
   } else if ((address_col %in% names(data)) && is.data.frame(data)) {
-    data <- tidygeocoder::geo(data, address = {{ address_col }})
+    # FIXME: Figure out how to properly quo/enquo the address column name
+    data$address <- as.character(data[[address_col]])
+    data <- tidygeocoder::geocode(data, address = address, long = "lon", lat = "lat")
+    data <- overedge::df_to_sf(data, coords = c("lon", "lat"), crs = crs)
+  }
 
-    data <- overedge::df_to_sf(data, coords = c("long", "lat"), crs = crs)
+  if (!is.null(group_meta)) {
+    if (is.data.frame(group_meta) && !is.null(groupname_col)) {
+      data <-
+        dplyr::left_join(data, group_meta, by = groupname_col)
+    } else if (check_sf(group_meta) && check_sf(data)) {
+      data <-
+        sf::st_join(x = data, y = group_meta, join = group_join)
+    }
   }
 
   if (!is.null(groupname_col)) {
     data <-
-      dplyr::filter(data, !is.na({{ groupname_col }}))
+      dplyr::filter(data, !is.na(.data[[groupname_col]]))
 
-    if (!is.null(group_meta)) {
-      if (is.data.frame(group_meta)) {
-        data <-
-          dplyr::left_join(data, group_meta, by = {{ groupname_col }})
-      } else if (check_sf(group_meta)) {
-        data <-
-          sf::st_join(x = data, y = group_meta, join = group_join)
-      }
-    }
-
-    data <- data %>% dplyr::group_by({{ groupname_col }})
+    data <- data %>% dplyr::group_by(.data[[groupname_col]])
   }
 
   # Convert to POINT if any other geometry

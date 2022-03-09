@@ -19,7 +19,7 @@ check_url <- function(x) {
 #' @importFrom usethis ui_stop
 group_by_col <- function(data, groupname_col = NULL) {
   if (!is.null(groupname_col) && (groupname_col %in% names(data))) {
-    dplyr::group_by(data, .data$groupname_col)
+    dplyr::group_by(data, .data[[groupname_col]])
   } else if (!is.null(data) && !(groupname_col %in% names(data))) {
     usethis::ui_stop("The provided data does not have a column matching this groupname_col ({usethis::ui_value(groupname_col)}).")
   } else {

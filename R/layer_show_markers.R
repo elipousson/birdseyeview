@@ -43,7 +43,7 @@ layer_show_markers <- function(data,
       )
   }
 
-  if (numbered) {
+  if (number) {
     # FIXME: Add in numbering
   }
 
@@ -64,16 +64,18 @@ layer_show_markers <- function(data,
 #' @param ... Additional parameters passed to `overedge::layer_location_data`
 #'   (include label.size, label.padding, and label.r to define alternate style)
 #' @export
-#' @importFrom dplyr group_by mutate row_number
-#' @importFrom ggplot2 aes unit
+#' @importFrom ggplot2 aes
 #' @importFrom rlang list2
+#' @importFrom purrr list_modify zap
+#' @importFrom usethis ui_stop
 #' @importFrom overedge layer_location_data
-#' @importFrom magrittr inset
 layer_number_markers <- function(data,
+                                 mapping = NULL,
                                  number_col = NULL,
                                  groupname_col = NULL, # "group",
                                  size = 5,
                                  style = "roundrect",
+                                 geom = "label",
                                  ...) {
   data <- group_by_col(data, groupname_col = groupname_col)
 
@@ -86,45 +88,74 @@ layer_number_markers <- function(data,
     )
   }
 
+  if (is.null(mapping)) {
+    mapping <- ggplot2::aes()
+  }
+
   if (!is.null(groupname_col)) {
     mapping <-
-      ggplot2::aes(
-        label = .data[[number_col]],
-        fill = .data[[groupname_col]]
+      modifyList(
+        ggplot2::aes(
+          label = .data[[number_col]],
+          fill = .data[[groupname_col]]
+        ),
+        mapping
       )
   } else {
     mapping <-
-      ggplot2::aes(label = .data[[number_col]])
+      modifyList(
+        ggplot2::aes(
+          label = .data[[number_col]]
+        ),
+        mapping
+      )
   }
 
   dots <- rlang::list2(...)
 
   if ("roundrect" %in% style) {
+
     label.size <- 0.0
     label.padding <- ggplot2::unit(size / 10, "lines")
     label.r <- label.padding * 1.5
-  } else {
-    label.size <- dots$label.size
-    label.padding <- dots$label.padding
-    label.r <- dots$label.r
+
+    # Make sure to remove any alternate values from the dots
+    dots <-
+      purrr::list_modify(
+        dots,
+        list(
+          label.size = purrr::zap(),
+          label.padding = purrr::zap(),
+          label.r = purrr::zap()
+        )
+      )
+  } else if (!all(c("label.size", "label.padding", "label.r") %in% names(dots))) {
+    usethis::ui_stop("layer_show_markers requires a valid style or that you pass the label.size, label.padding, and label.r through the ... parameter.")
   }
 
-  dots <-
-    magrittr::inset(
-      dots,
-      c("label.size", "label.padding", "label.r"),
-      NULL
-    )
-
+  # Set hjust and vust to defaults unless passed in dots
   if (!all(c("hjust", "vjust") %in% names(dots))) {
     hjust <- 0.5
     vjust <- 0.5
+  } else {
+    hjust <- dots$hjust
+    vjust <- dots$vjust
+
+    dots <-
+      purrr::list_modify(
+        dots,
+        list(
+          hjust = purrr::zap(),
+          vjust = purrr::zap()
+        )
+      )
+
   }
 
   list(
     overedge::layer_location_data(
       data = data,
-      geom = "label",
+      geom = geom,
       mapping = mapping,
       size = size,
       label.size = label.size,

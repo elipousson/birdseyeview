@@ -8,7 +8,7 @@ get_markers(
   data,
   groupname_col = "group",
   group_meta = NULL,
-  group_join = sf::st_intersects(),
+  group_join = sf::st_intersects,
   geocode = FALSE,
   address_col = "address",
   point = TRUE,

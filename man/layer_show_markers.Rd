@@ -21,10 +21,12 @@ layer_show_markers(
 
 layer_number_markers(
   data,
+  mapping = NULL,
   number_col = NULL,
   groupname_col = NULL,
   size = 5,
   style = "roundrect",
+  geom = "label",
   ...
 )
 }
