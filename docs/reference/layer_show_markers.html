@@ -64,7 +64,7 @@
   <span class="va">data</span>,
   mapping <span class="op">=</span> <span class="cn">NULL</span>,
   get <span class="op">=</span> <span class="cn">TRUE</span>,
-  groupname_col <span class="op">=</span> <span class="st">"group"</span>,
+  groupname_col <span class="op">=</span> <span class="cn">NULL</span>,
   group_meta <span class="op">=</span> <span class="cn">NULL</span>,
   style <span class="op">=</span> <span class="cn">NULL</span>,
   crs <span class="op">=</span> <span class="cn">NULL</span>,
@@ -89,26 +89,26 @@
     <div class="section level2">
     <h2 id="arguments">Arguments<a class="anchor" aria-label="anchor" href="#arguments"></a></h2>
     <dl><dt>data</dt>
-<dd><p>Data with markers, passed to data parameter of `overedge::get_location_data`</p></dd>
+<dd><p>Data with markers, passed to data parameter of <code><a href="https://rdrr.io/pkg/overedge/man/get_location_data.html" class="external-link">overedge::get_location_data()</a></code></p></dd>
 <dt>get</dt>
-<dd><p>If `TRUE`, pass data to get_markers.</p></dd>
+<dd><p>If <code>TRUE</code>, pass data to get_markers.</p></dd>
 <dt>groupname_col</dt>
-<dd><p>Group column name, used to join group metadata if group_meta is a non-spatial data frame; Default: 'group'</p></dd>
+<dd><p>Group column name, used to join group metadata if group_meta is a non-spatial data frame; Default: <code>NULL</code></p></dd>
 <dt>group_meta</dt>
-<dd><p>Group metadata as a data frame or sf object that intersect with markers; Default: NULL</p></dd>
+<dd><p>Group metadata as a data frame or sf object that intersect with markers; Default: <code>NULL</code></p></dd>
 <dt>style</dt>
-<dd><p>Style; defaults to `NULL` for `layer_show_markers` (supports
-"facet"); defaults to "roundrect" for `layer_number_markers`,</p></dd>
+<dd><p>Style; defaults to <code>NULL</code> for <code>layer_show_markers()</code> (supports
+"facet"); defaults to "roundrect" for <code>layer_number_markers()</code>,</p></dd>
 <dt>crs</dt>
-<dd><p>Coordinate reference system for markers, Default: NULL</p></dd>
+<dd><p>Coordinate reference system for markers, Default: <code>NULL</code></p></dd>
 <dt>fn</dt>
-<dd><p>Function to apply to data before results; gives warning if data is grouped; Default: NULL</p></dd>
+<dd><p>Function to apply to data before results; gives warning if data is grouped; Default: <code>NULL</code></p></dd>
 <dt>number</dt>
-<dd><p>If `TRUE`, number markers using `layer_number_markers`</p></dd>
+<dd><p>If <code>TRUE</code>, number markers using <code>layer_number_markers()</code></p></dd>
 <dt>number_col</dt>
 <dd><p>Name of column with numbers; defaults to NULL.</p></dd>
 <dt>...</dt>
-<dd><p>Additional parameters passed to `overedge::layer_location_data`
+<dd><p>Additional parameters passed to <code><a href="https://rdrr.io/pkg/overedge/man/layer_location_data.html" class="external-link">overedge::layer_location_data</a></code>
 (include label.size, label.padding, and label.r to define alternate style)</p></dd>
 <dt>size</dt>
 <dd><p>Marker size, Default: 5</p></dd>

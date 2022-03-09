@@ -38,7 +38,7 @@ make_mapbox_basemap <-
     # FIXME: should this function support dist, diag_ratio, and asp?
     bbox <-
       overedge::sf_bbox_transform(
-        data = bbox,
+        bbox = bbox,
         crs = crs_mapbox
       )
 

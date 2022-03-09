@@ -6,7 +6,7 @@
 \usage{
 get_markers(
   data,
-  groupname_col = "group",
+  groupname_col = NULL,
   group_meta = NULL,
   group_join = sf::st_intersects,
   geocode = FALSE,
@@ -18,25 +18,25 @@ get_markers(
 )
 }
 \arguments{
-\item{data}{Data with markers, passed to data parameter of `overedge::get_location_data`}
+\item{data}{Data with markers, passed to data parameter of \code{\link[overedge:get_location_data]{overedge::get_location_data()}}}
 
-\item{groupname_col}{Group column name, used to join group metadata if group_meta is a non-spatial data frame; Default: 'group'}
+\item{groupname_col}{Group column name, used to join group metadata if group_meta is a non-spatial data frame; Default: \code{NULL}}
 
-\item{group_meta}{Group metadata as a data frame or sf object that intersect with markers; Default: NULL}
+\item{group_meta}{Group metadata as a data frame or sf object that intersect with markers; Default: \code{NULL}}
 
-\item{group_join}{The join function used by sf::st_join group_meta is an sf object, Default: sf::st_intersects()}
+\item{group_join}{The join function used by \code{\link[sf:st_join]{sf::st_join()}} if group_meta is an sf object, Default: \link[sf:geos_binary_pred]{sf::st_intersects}}
 
-\item{geocode}{If TRUE, geocode data using `tidygeocoder::geo` and then convert to sf with `overedge::df_to_sf`, Default: FALSE}
+\item{geocode}{If \code{TRUE}, geocode data using \code{tidygeocoder::geo} and then convert to sf with \code{overedge::df_to_sf}, Default: \code{FALSE}}
 
-\item{address_col}{Address column, used if geocode is TRUE Default: 'address'}
+\item{address_col}{Address column, used if geocode is \code{TRUE} Default: 'address'}
 
-\item{point}{If TRUE, convert geometry to POINT with sf::st_centroid(), Default: TRUE}
+\item{point}{If \code{TRUE}, convert geometry to "POINT" with \code{\link[sf:geos_unary]{sf::st_centroid()}}, Default: \code{TRUE}}
 
-\item{crs}{Coordinate reference system for markers, Default: NULL}
+\item{crs}{Coordinate reference system for markers, Default: \code{NULL}}
 
-\item{fn}{Function to apply to data before results; gives warning if data is grouped; Default: NULL}
+\item{fn}{Function to apply to data before results; gives warning if data is grouped; Default: \code{NULL}}
 
-\item{...}{Additional parameters passed to `overedge::get_location_data`}
+\item{...}{Additional parameters passed to \code{\link[overedge:get_location_data]{overedge::get_location_data()}}}
 }
 \description{
 Get markers

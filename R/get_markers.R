@@ -1,15 +1,15 @@
 #' Get markers
 #'
-#' @param data Data with markers, passed to data parameter of `overedge::get_location_data`
-#' @param groupname_col Group column name, used to join group metadata if group_meta is a non-spatial data frame; Default: 'group'
-#' @param group_meta Group metadata as a data frame or sf object that intersect with markers; Default: NULL
-#' @param group_join The join function used by sf::st_join group_meta is an sf object, Default: sf::st_intersects()
-#' @param geocode If TRUE, geocode data using `tidygeocoder::geo` and then convert to sf with `overedge::df_to_sf`, Default: FALSE
-#' @param address_col Address column, used if geocode is TRUE Default: 'address'
-#' @param point If TRUE, convert geometry to POINT with sf::st_centroid(), Default: TRUE
-#' @param crs Coordinate reference system for markers, Default: NULL
-#' @param fn Function to apply to data before results; gives warning if data is grouped; Default: NULL
-#' @param ... Additional parameters passed to `overedge::get_location_data`
+#' @param data Data with markers, passed to data parameter of [overedge::get_location_data()]
+#' @param groupname_col Group column name, used to join group metadata if group_meta is a non-spatial data frame; Default: `NULL`
+#' @param group_meta Group metadata as a data frame or sf object that intersect with markers; Default: `NULL`
+#' @param group_join The join function used by [sf::st_join()] if group_meta is an sf object, Default: [sf::st_intersects]
+#' @param geocode If `TRUE`, geocode data using `tidygeocoder::geo` and then convert to sf with `overedge::df_to_sf`, Default: `FALSE`
+#' @param address_col Address column, used if geocode is `TRUE` Default: 'address'
+#' @param point If `TRUE`, convert geometry to "POINT" with [sf::st_centroid()], Default: `TRUE`
+#' @param crs Coordinate reference system for markers, Default: `NULL`
+#' @param fn Function to apply to data before results; gives warning if data is grouped; Default: `NULL`
+#' @param ... Additional parameters passed to [overedge::get_location_data()]
 #' @rdname get_markers
 #' @export
 #' @importFrom sf st_intersects st_join st_centroid
@@ -19,7 +19,7 @@
 #' @importFrom usethis ui_warn
 #' @importFrom rlang as_function
 get_markers <- function(data,
-                        groupname_col = "group",
+                        groupname_col = NULL,
                         group_meta = NULL,
                         group_join = sf::st_intersects,
                         geocode = FALSE,

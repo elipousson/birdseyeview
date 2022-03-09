@@ -100,7 +100,7 @@ without modification.}
 
 \item{neatline}{If TRUE, add \code{layer_neatline} with \code{expand = TRUE}; defaults to FALSE.}
 
-\item{...}{Additional parameters passed to get_location if data is `NULL`.}
+\item{...}{Additional parameters passed to get_location if data is \code{NULL}.}
 }
 \value{
 list of ggplot2 geoms

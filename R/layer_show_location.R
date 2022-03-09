@@ -64,6 +64,7 @@ layer_show_location <-
     }
 
     if (smooth) {
+      # FIXME: Add a way of capturing the paramers for smooth from the dots instead of passing everything to get_location
       data <- smoothr::smooth(data)
     }
 

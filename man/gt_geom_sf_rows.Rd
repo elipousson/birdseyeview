@@ -2,7 +2,7 @@
 % Please edit documentation in R/gt_geom_sf_rows.R
 \name{gt_geom_sf_rows}
 \alias{gt_geom_sf_rows}
-\title{Add maps of simple features into rows of a `gt` table}
+\title{Add maps of simple features into rows of a \code{gt} table}
 \usage{
 gt_geom_sf_rows(
   gt_object,
@@ -37,6 +37,6 @@ gt_geom_sf_rows(
 \item{fn}{Optional rowwise function that results in ggplot2 map the replaces geometry column.}
 }
 \description{
-Add maps of simple features into rows of a `gt` table with {ggplot2}. Function naming convention borrowed from {gtExtras} <https://jthomasmock.github.io/gtExtras/reference/gt_img_rows.html>
+Add maps of simple features into rows of a \code{gt} table with {ggplot2}. Function naming convention borrowed from {gtExtras} \url{https://jthomasmock.github.io/gtExtras/reference/gt_img_rows.html}
 }
 \concept{gt}

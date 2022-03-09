@@ -36,7 +36,7 @@ make_inset_map(
 ggplot2 with inset map added using patchwork
 }
 \description{
-Works with `layer_show_context`
+Works with \code{layer_show_context}
 }
 \examples{
 \dontrun{
@@ -68,5 +68,5 @@ if (interactive()) {
 }
 \seealso{
 \code{\link[ggplot2]{ggplot}}
- \code{\link[patchwork]{inset_element}}
+\code{\link[patchwork]{inset_element}}
 }

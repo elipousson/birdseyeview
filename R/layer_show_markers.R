@@ -2,10 +2,10 @@
 #'
 #' @inheritParams get_markers
 #' @param get If `TRUE`, pass data to get_markers.
-#' @param number If `TRUE`, number markers using `layer_number_markers`
-#' @param style Style; defaults to `NULL` for `layer_show_markers` (supports
-#'   "facet"); defaults to "roundrect" for `layer_number_markers`,
-#' @param ... Additional parameters passed to `layer_group_data`
+#' @param number If `TRUE`, number markers using [layer_number_markers()]
+#' @param style Style; defaults to `NULL` for [layer_show_markers()] (supports
+#'   "facet"); defaults to "roundrect" for [layer_number_markers()],
+#' @param ... Additional parameters passed to [layer_group_data()]
 #' @return ggplot2 layers
 #' @examples
 #' \dontrun{
@@ -18,13 +18,14 @@
 #' }
 #' }
 #' @name layer_show_markers
+#' @md
 #' @export
 #' @importFrom overedge layer_location_data
 #' @importFrom ggplot2 facet_wrap
 layer_show_markers <- function(data,
                                mapping = NULL,
                                get = TRUE,
-                               groupname_col = "group",
+                               groupname_col = NULL,
                                group_meta = NULL,
                                style = NULL, # "facet",
                                crs = NULL,
@@ -73,7 +74,7 @@ layer_show_markers <- function(data,
 layer_number_markers <- function(data,
                                  mapping = NULL,
                                  number_col = NULL,
-                                 groupname_col = NULL, # "group",
+                                 groupname_col = NULL,
                                  size = 5,
                                  style = "roundrect",
                                  geom = "label",

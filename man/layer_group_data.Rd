@@ -29,10 +29,10 @@ plot. You must supply \code{mapping} if there is no plot mapping.}
 (geom_sf), "icon" (geom_sf_icon), "text" (geom_sf_text), "label"
 (geom_sf_label), "textsf", "labelsf", "text_repel", and "label_repel".}
 
-\item{layers}{If `TRUE`; return a list of layers; if `FALSE`; return a list
-of ggplot2 maps; defaults to `TRUE`}
+\item{layers}{If \code{TRUE}; return a list of layers; if \code{FALSE}; return a list
+of ggplot2 maps; defaults to \code{TRUE}}
 
-\item{...}{Additional parameters passed to `overedge::layer_location_data`}
+\item{...}{Additional parameters passed to \code{overedge::layer_location_data}}
 }
 \description{
 Make group layers

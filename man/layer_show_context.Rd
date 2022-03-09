@@ -24,7 +24,7 @@ layer_show_context(
 
 \item{color}{Edge color for location data}
 
-\item{context}{sf or bbox object for context area or a `geom` layer}
+\item{context}{sf or bbox object for context area or a \code{geom} layer}
 
 \item{context_aes}{list with aesthetic attributes for context area; must
 include fill and color; defaults to list(fill = "white", color = "black",
@@ -35,7 +35,7 @@ layer and the location layer.}
 
 \item{crs}{coordinate reference system to return}
 
-\item{neatline}{If `TRUE`, add a neatline layer to the returned layer}
+\item{neatline}{If \code{TRUE}, add a neatline layer to the returned layer}
 
 \item{...}{Additional parameters passed to overedge::layer_location_data for
 location}

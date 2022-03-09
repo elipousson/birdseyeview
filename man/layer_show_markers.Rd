@@ -9,7 +9,7 @@ layer_show_markers(
   data,
   mapping = NULL,
   get = TRUE,
-  groupname_col = "group",
+  groupname_col = NULL,
   group_meta = NULL,
   style = NULL,
   crs = NULL,
@@ -31,26 +31,26 @@ layer_number_markers(
 )
 }
 \arguments{
-\item{data}{Data with markers, passed to data parameter of `overedge::get_location_data`}
+\item{data}{Data with markers, passed to data parameter of \code{\link[overedge:get_location_data]{overedge::get_location_data()}}}
 
-\item{get}{If `TRUE`, pass data to get_markers.}
+\item{get}{If \code{TRUE}, pass data to get_markers.}
 
-\item{groupname_col}{Group column name, used to join group metadata if group_meta is a non-spatial data frame; Default: 'group'}
+\item{groupname_col}{Group column name, used to join group metadata if group_meta is a non-spatial data frame; Default: \code{NULL}}
 
-\item{group_meta}{Group metadata as a data frame or sf object that intersect with markers; Default: NULL}
+\item{group_meta}{Group metadata as a data frame or sf object that intersect with markers; Default: \code{NULL}}
 
-\item{style}{Style; defaults to `NULL` for `layer_show_markers` (supports
-"facet"); defaults to "roundrect" for `layer_number_markers`,}
+\item{style}{Style; defaults to \code{NULL} for \code{\link[=layer_show_markers]{layer_show_markers()}} (supports
+"facet"); defaults to "roundrect" for \code{\link[=layer_number_markers]{layer_number_markers()}},}
 
-\item{crs}{Coordinate reference system for markers, Default: NULL}
+\item{crs}{Coordinate reference system for markers, Default: \code{NULL}}
 
-\item{fn}{Function to apply to data before results; gives warning if data is grouped; Default: NULL}
+\item{fn}{Function to apply to data before results; gives warning if data is grouped; Default: \code{NULL}}
 
-\item{number}{If `TRUE`, number markers using `layer_number_markers`}
+\item{number}{If \code{TRUE}, number markers using \code{\link[=layer_number_markers]{layer_number_markers()}}}
 
 \item{number_col}{Name of column with numbers; defaults to NULL.}
 
-\item{...}{Additional parameters passed to `overedge::layer_location_data`
+\item{...}{Additional parameters passed to \code{overedge::layer_location_data}
 (include label.size, label.padding, and label.r to define alternate style)}
 
 \item{size}{Marker size, Default: 5}

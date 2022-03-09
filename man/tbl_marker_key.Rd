@@ -15,8 +15,8 @@ tbl_marker_key(data, title_col = NULL, groupname_col = NULL, number_col = NULL)
 
 \item{number_col}{Number column name, Default: NULL. If NULL and data does
 not contain a column named "number", add a number column created using
-`dplyr::row_number()` function.}
+\code{dplyr::row_number()} function.}
 }
 \description{
-Designed for use with maps created using `layer_show_markers()`
+Designed for use with maps created using \code{layer_show_markers()}
 }
