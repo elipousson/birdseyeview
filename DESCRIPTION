@@ -30,7 +30,9 @@ Imports:
     tibble,
     tidygeocoder,
     utils,
-    snapbox
+    snapbox,
+    scales,
+    paletteer
 Remotes:
     elipousson/overedge,
     anthonynorth/snapbox
