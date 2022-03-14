@@ -60,7 +60,14 @@
 
     <div class="section level2">
     <h2 id="ref-usage">Usage<a class="anchor" aria-label="anchor" href="#ref-usage"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">tbl_marker_key</span><span class="op">(</span><span class="va">data</span>, title_col <span class="op">=</span> <span class="cn">NULL</span>, groupname_col <span class="op">=</span> <span class="cn">NULL</span>, number_col <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">tbl_marker_key</span><span class="op">(</span>
+  <span class="va">data</span>,
+  title_col <span class="op">=</span> <span class="cn">NULL</span>,
+  groupname_col <span class="op">=</span> <span class="cn">NULL</span>,
+  number_col <span class="op">=</span> <span class="cn">NULL</span>,
+  color <span class="op">=</span> <span class="cn">FALSE</span>,
+  palette <span class="op">=</span> <span class="cn">NULL</span>
+<span class="op">)</span></code></pre></div>
     </div>
 
     <div class="section level2">
@@ -75,6 +82,10 @@
 <dd><p>Number column name, Default: NULL. If NULL and data does
 not contain a column named "number", add a number column created using
 <code><a href="https://dplyr.tidyverse.org/reference/ranking.html" class="external-link">dplyr::row_number()</a></code> function.</p></dd>
+<dt>color</dt>
+<dd><p>If TRUE, apply a cell fill color to the group headings in the table (defined by groupname_col)</p></dd>
+<dt>palette</dt>
+<dd><p>palete to use for the group heading fill colors (passed to <code><a href="scale_group_data.html">group_data_pal()</a></code>)</p></dd>
 </dl></div>
 
   </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>

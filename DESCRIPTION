@@ -10,9 +10,6 @@ Description: This package helps create maps, tables, and figures for planning do
 License: MIT + file LICENSE
 Encoding: UTF-8
 LazyData: true
-Suggests: 
-    knitr,
-    rmarkdown
 VignetteBuilder: knitr
 Imports: 
     sf,
@@ -36,6 +33,10 @@ Imports:
 Remotes:
     elipousson/overedge,
     anthonynorth/snapbox
+Suggests: 
+    ggforce,
+    knitr,
+    rmarkdown
 RoxygenNote: 7.1.2
 Roxygen: list(markdown = TRUE)
 URL: https://elipousson.github.io/birdseyeview/

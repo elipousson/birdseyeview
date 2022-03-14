@@ -15,4 +15,5 @@ reference:
 - title: Preparing data for display
   contents:
   - starts_with("get")
+  - '`number_markers`'
 

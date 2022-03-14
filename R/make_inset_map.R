@@ -51,6 +51,7 @@ make_inset_map <-
            location = NULL,
            context = NULL,
            position = "bottomright",
+           scale = 1,
            nudge_x = 0,
            nudge_y = 0,
            ...) {
@@ -64,24 +65,31 @@ make_inset_map <-
         )
     }
 
+    # FIXME: This is an incomplete implementation of a scale factor for an inset map
+    # top, bottom, left, and right probably should all be based on scale as well
     top <- 0.5
     bottom <- 0.5
     left <- 0.5
     right <- 0.5
+    width <- 0.25
+
+    if (is.numeric(scale)) {
+      width <- width * scale
+    }
 
     if (grepl("top", position)) {
       top <- 1
-      bottom <- 0.75
+      bottom <- bottom + width
     } else if (grepl("bottom", position)) {
-      top <- 0.25
+      top <- width
       bottom <- 0
     }
 
     if (grepl("left", position)) {
       left <- 0
-      right <- 0.25
+      right <- width
     } else if (grepl("right", position)) {
-      left <- 0.75
+      left <- 1 - width
       right <- 1
     }
 

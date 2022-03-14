@@ -62,6 +62,7 @@ layer_show_markers <- function(data,
 #' @name layer_number_markers
 #' @param number_col Name of column with numbers; defaults to NULL.
 #' @param size Marker size, Default: 5
+#' @inheritParams number_markers
 #' @param ... Additional parameters passed to `overedge::layer_location_data`
 #'   (include label.size, label.padding, and label.r to define alternate style)
 #' @export
@@ -71,6 +72,7 @@ layer_show_markers <- function(data,
 #' @importFrom usethis ui_stop
 #' @importFrom utils modifyList
 #' @importFrom overedge layer_location_data
+#' @importFrom dplyr arrange mutate row_number
 layer_number_markers <- function(data,
                                  mapping = NULL,
                                  number_col = NULL,
@@ -78,73 +80,60 @@ layer_number_markers <- function(data,
                                  size = 5,
                                  style = "roundrect",
                                  geom = "label",
+                                 sort = "lon",
+                                 desc = FALSE,
                                  ...) {
-  data <- group_by_col(data, groupname_col = groupname_col)
-
   if (is.null(number_col)) {
+    data <- number_markers(data = data, groupname_col = groupname_col, sort = sort, desc = desc)
     number_col <- "number"
+  }
 
-    data <- dplyr::mutate(
-      data,
-      number = dplyr::row_number()
+  mapping <-
+    modify_mapping(
+      mapping = mapping,
+      label = number_col
     )
-  }
-
-  if (is.null(mapping)) {
-    mapping <- ggplot2::aes()
-  }
 
   if (!is.null(groupname_col)) {
     mapping <-
-      utils::modifyList(
-        ggplot2::aes(
-          label = .data[[number_col]],
-          fill = .data[[groupname_col]]
-        ),
-        mapping
-      )
-  } else {
-    mapping <-
-      utils::modifyList(
-        ggplot2::aes(
-          label = .data[[number_col]]
-        ),
-        mapping
+      modify_mapping(
+        mapping = mapping,
+        fill = groupname_col
       )
   }
 
-  dots <- rlang::list2(...)
+  params <- rlang::list2(...)
 
   if ("roundrect" %in% style) {
     label.size <- 0.0
     label.padding <- ggplot2::unit(size / 10, "lines")
     label.r <- label.padding * 1.5
 
-    # Make sure to remove any alternate values from the dots
-    dots <-
+    # Make sure to remove any alternate values from the params
+    params <-
       purrr::list_modify(
-        dots,
+        params,
         list(
           label.size = purrr::zap(),
           label.padding = purrr::zap(),
           label.r = purrr::zap()
         )
       )
-  } else if (!all(c("label.size", "label.padding", "label.r") %in% names(dots))) {
+  } else if (!all(c("label.size", "label.padding", "label.r") %in% names(params))) {
     usethis::ui_stop("layer_show_markers requires a valid style or that you pass the label.size, label.padding, and label.r through the ... parameter.")
   }
 
-  # Set hjust and vust to defaults unless passed in dots
-  if (!all(c("hjust", "vjust") %in% names(dots))) {
+  # Set hjust and vust to defaults unless passed in params
+  if (!all(c("hjust", "vjust") %in% names(params))) {
     hjust <- 0.5
     vjust <- 0.5
   } else {
-    hjust <- dots$hjust
-    vjust <- dots$vjust
+    hjust <- params$hjust
+    vjust <- params$vjust
 
-    dots <-
+    params <-
       purrr::list_modify(
-        dots,
+        params,
         list(
           hjust = purrr::zap(),
           vjust = purrr::zap()

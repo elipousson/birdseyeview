@@ -10,6 +10,7 @@ make_inset_map(
   location = NULL,
   context = NULL,
   position = "bottomright",
+  scale = 1,
   nudge_x = 0,
   nudge_y = 0,
   ...

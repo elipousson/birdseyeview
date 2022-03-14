@@ -27,6 +27,8 @@ layer_number_markers(
   size = 5,
   style = "roundrect",
   geom = "label",
+  sort = "lon",
+  desc = FALSE,
   ...
 )
 }

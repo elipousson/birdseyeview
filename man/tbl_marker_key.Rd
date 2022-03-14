@@ -4,7 +4,14 @@
 \alias{tbl_marker_key}
 \title{Make a key for a marker map}
 \usage{
-tbl_marker_key(data, title_col = NULL, groupname_col = NULL, number_col = NULL)
+tbl_marker_key(
+  data,
+  title_col = NULL,
+  groupname_col = NULL,
+  number_col = NULL,
+  color = FALSE,
+  palette = NULL
+)
 }
 \arguments{
 \item{data}{Data frame or sf object with marker data}
@@ -16,6 +23,10 @@ tbl_marker_key(data, title_col = NULL, groupname_col = NULL, number_col = NULL)
 \item{number_col}{Number column name, Default: NULL. If NULL and data does
 not contain a column named "number", add a number column created using
 \code{dplyr::row_number()} function.}
+
+\item{color}{If TRUE, apply a cell fill color to the group headings in the table (defined by groupname_col)}
+
+\item{palette}{palete to use for the group heading fill colors (passed to \code{\link[=group_data_pal]{group_data_pal()}})}
 }
 \description{
 Designed for use with maps created using \code{layer_show_markers()}

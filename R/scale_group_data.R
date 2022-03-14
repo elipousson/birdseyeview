@@ -62,7 +62,7 @@ scale_group_data <-
     }
 
     list(
-      scale_fil,
+      scale_fill,
       scale_color
     )
   }
@@ -79,7 +79,6 @@ group_data_pal <- function(data,
                            groupname_col = NULL,
                            n = NULL,
                            direction = 1) {
-
   data <-
     group_by_col(
       data = data,
