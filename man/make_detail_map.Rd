@@ -11,7 +11,7 @@ make_detail_map(
   fn = NULL,
   groupname_col = NULL,
   palette = NULL,
-  aesthetics = "color",
+  aesthetics = c("color", "fill"),
   number = FALSE,
   overlay = NULL,
   paper = NULL,
@@ -19,16 +19,19 @@ make_detail_map(
   context_dist = 0,
   detail_diag_ratio = 0.1,
   access_token = Sys.getenv("MAPBOX_SECRET_TOKEN"),
-  columns = 1,
-  sort = "lon",
+  cols = 1,
   rows = 1,
+  margin = "none",
+  gutter = 0,
+  sort = "lon",
   scale = 1,
   neatline = TRUE,
-  neatline_dist = 0,
-  expand = TRUE,
+  neatline_params = list(dist = 0, diag_ratio = NULL, color = "black", size = 1, expand
+    = TRUE),
   crs = NULL,
   inset_legend = TRUE,
-  legend_position = NULL,
+  legend_position = "bottomleft",
+  labs_ext = NULL,
   ...
 )
 
@@ -43,7 +46,8 @@ make_section_map(
   asp = NULL,
   number = FALSE,
   neatline = TRUE,
-  neatline_dist = 0,
+  neatline_params = list(dist = 0, diag_ratio = NULL, color = "black", size = 1, expand
+    = TRUE),
   expand = TRUE,
   crs = NULL,
   ...
@@ -62,9 +66,32 @@ column named data}
 
 \item{overlay}{Overlay, Default: NULL}
 
+\item{paper}{Paper, Default: 'letter'.}
+
+\item{orientation}{Orientation "portrait", "landscape", or "square", Default:
+'portrait'.}
+
 \item{access_token}{Mapbox access token, Default: NULL}
 
+\item{cols}{Number of expected columns and rows in paper; used to
+determine row_height and section_asp in paper data frame returned by
+get_paper if rows or cols is greater than 1; defaults to \code{NULL}.}
+
+\item{rows}{Number of expected columns and rows in paper; used to
+determine row_height and section_asp in paper data frame returned by
+get_paper if rows or cols is greater than 1; defaults to \code{NULL}.}
+
+\item{margin}{Margin style (options include "extrawide", "wide", "standard",
+"narrow", "none"), Additional "auto" option to generate margin based on
+line length is planned but not yet implemented. Default: \code{NULL} (equivalent
+to "none").}
+
 \item{scale}{Scale, Default: 0.6}
+
+\item{neatline_params}{List with dist, diag_ratio, color, size, and expand
+passed on to layer_neatline.}
+
+\item{labs_ext}{Label object created with \link[ggplot2:labs]{ggplot2::labs} or \link[overedge:labs_ext]{overedge::labs_ext} function.}
 
 \item{...}{Additional parameters used by various functions.}
 
@@ -107,6 +134,4 @@ to work as expected)
 
 All of these variables are currently defined globally and cannot be modified
 for detail maps with the section (unless you call make_section_map directly).
-
-DETAILS
 }

@@ -9,7 +9,11 @@
 #'   column named data
 #' @param context Broader context area containing all detail maps, Default: NULL
 #' @param overlay Overlay for all detail maps, Default: NULL
+#' @param neatline_params List with dist, diag_ratio, color, size, and expand
+#'   passed on to layer_neatline.
+#' @param labs_ext Label object created with [ggplot2::labs] or [overedge::labs_ext] function.
 #' @rdname make_detail_map
+#' @inheritParams overedge::get_paper
 #' @export
 #' @importFrom overedge check_sf_list check_sf as_sf st_bbox_ext check_bbox
 #'   sf_bbox_asp get_paper
@@ -19,7 +23,7 @@ make_detail_map <- function(detail,
                             fn = NULL,
                             groupname_col = NULL,
                             palette = NULL,
-                            aesthetics = "color",
+                            aesthetics = c("color", "fill"),
                             number = FALSE,
                             overlay = NULL,
                             paper = NULL,
@@ -27,16 +31,18 @@ make_detail_map <- function(detail,
                             context_dist = 0,
                             detail_diag_ratio = 0.1,
                             access_token = Sys.getenv("MAPBOX_SECRET_TOKEN"),
-                            columns = 1,
-                            sort = "lon",
+                            cols = 1,
                             rows = 1,
+                            margin = "none",
+                            gutter = 0,
+                            sort = "lon",
                             scale = 1,
                             neatline = TRUE,
-                            neatline_dist = 0,
-                            expand = TRUE,
+                            neatline_params = list(dist = 0, diag_ratio = NULL, color = "black", size = 1, expand = TRUE),
                             crs = NULL,
                             inset_legend = TRUE,
-                            legend_position = NULL,
+                            legend_position = "bottomleft",
+                            labs_ext = NULL,
                             ...) {
   if (overedge::check_sf_list(detail)) {
     batch <- length(detail) # list column with data
@@ -78,13 +84,13 @@ make_detail_map <- function(detail,
     if (is.null(orientation) && (overedge::check_bbox(context_bbox, ext = TRUE))) {
       orientation <- overedge::sf_bbox_asp(bbox = context_bbox, orientation = TRUE)
     }
-    detail_paper <- overedge::get_paper(paper = paper, orientation = orientation)
+    detail_paper <- overedge::get_paper(paper = paper, orientation = orientation, cols = cols, rows = rows, gutter = gutter, margin = margin)
   } else if (is.data.frame(paper)) {
-    if (!c("width", "height", "orientation", "asp") %in% names(paper)) {
+    if (!c("width", "height", "orientation", "asp", "section_asp") %in% names(paper)) {
       usethis::ui_stop("The dataframe provided to paper provided does not appear to include the required columns.")
-    } else {
-      detail_paper <- paper
     }
+
+    detail_paper <- paper
   }
 
   # TODO: Re-implement margins here to get the block_asp value
@@ -97,20 +103,6 @@ make_detail_map <- function(detail,
         asp = detail_paper$asp,
         crs = crs
       )
-  }
-
-  # Divide width and height by rows and columns if needed
-  # TODO: This should be implemented in get_paper
-  if ((columns > 1) || rows > 1) {
-    detail_paper$cols <- columns
-    detail_paper$col_width <- detail_paper$width / columns
-    detail_paper$rows <- rows
-    detail_paper$row_height <- detail_paper$height / rows
-    detail_paper$section_asp <- detail_paper$col_width / detail_paper$row_height
-
-    usethis::ui_info("Based on the provided paper ({paper}), orientation, rows, and/or columns, the expected detail map size is {col_width} by {row_height}.")
-  } else {
-    detail_paper$section_asp <- detail_paper$asp
   }
 
   # Create maps with make_section_map
@@ -129,7 +121,7 @@ make_detail_map <- function(detail,
         scale = scale,
         number = number,
         neatline = neatline,
-        neatline_dist = neatline_dist,
+        neatline_params = neatline_params,
         expand = expand,
         crs = crs,
         ...
@@ -149,13 +141,15 @@ make_detail_map <- function(detail,
     group_scale <- NULL
   }
 
-  detail_legend <-
-    overedge::theme_legend(
-      position = legend_position,
-      #  margin = 10,
-      #  unit = "pt",
-      inset = inset_legend
-    )
+  if (!is.null(legend_position)) {
+    detail_legend <-
+      overedge::theme_legend(
+        position = legend_position,
+        #  margin = 10,
+        #  unit = "pt",
+        inset = inset_legend
+      )
+  }
 
   # Combine detail maps with scale and legend
   detail_maps <-
@@ -163,9 +157,9 @@ make_detail_map <- function(detail,
       detail_maps,
       ~ .x +
         group_scale +
-        detail_legend
+        detail_legend +
+        labs_ext
     )
-
 
   return(detail_maps)
 }
@@ -206,7 +200,6 @@ make_detail_map <- function(detail,
 #' @param asp Aspect ratio, Default: NULL
 #' @param number If TRUE, number data, Default: FALSE
 #' @param ... Additional parameters used by various functions.
-#' @details DETAILS
 #' @rdname make_detail_map
 #' @name make_section_map
 #' @export
@@ -221,7 +214,7 @@ make_section_map <- function(section,
                              asp = NULL,
                              number = FALSE,
                              neatline = TRUE,
-                             neatline_dist = 0,
+                             neatline_params = list(dist = 0, diag_ratio = NULL, color = "black", size = 1, expand = TRUE),
                              expand = TRUE,
                              crs = NULL,
                              ...) {
@@ -229,6 +222,13 @@ make_section_map <- function(section,
     fn <- rlang::as_function(fn)
     section <- fn(section)
   }
+
+  neatline_params <-
+    utils::modifyList(
+      list(dist = 0, diag_ratio = NULL, color = "black", size = 1, expand = TRUE),
+      neatline_params,
+      keep.null = TRUE
+    )
 
   sect_params <- rlang::list2(...)
 
@@ -298,9 +298,12 @@ make_section_map <- function(section,
     neatline_layer <-
       layer_neatline(
         data = sect_bbox,
-        dist = neatline_dist, # TODO: Document the existence of the neatline_dist parameter as distinct from sect_params$dist used to create the section_bbox
         asp = asp,
-        expand = expand,
+        dist = neatline_params$dist, # TODO: Document the existence of the neatline_dist parameter as distinct from sect_params$dist used to create the section_bbox
+        diag_ratio = neatline_params$diag_ratio,
+        expand = neatline_params$expand,
+        color = neatline_params$color,
+        size = neatline_params$size,
         crs = crs
       )
   } else {
