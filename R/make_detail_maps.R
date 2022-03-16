@@ -4,16 +4,22 @@
 #' of a type using data created by using [dplyr::group_by()] and
 #' [dplyr::group_nest()] if the data is an sf object and keep = TRUE.
 #'
-#' @param detail an sf object (or object that is convertible with [overedge::as_sf()]), list of sf objects, or data frame with a sf list column named data
+#' @param detail an sf object (or object that is convertible with
+#'   [overedge::as_sf()]), list of sf objects, or data frame with a sf list
+#'   column named data
 #' @param context Broader context area containing all detail maps, Default: NULL
 #' @param overlay Overlay for all detail maps, Default: NULL
 #' @rdname make_detail_map
 #' @export
-#' @importFrom overedge get_paper
+#' @importFrom overedge check_sf_list check_sf as_sf st_bbox_ext check_bbox
+#'   sf_bbox_asp get_paper
 #' @importFrom usethis ui_stop
 make_detail_map <- function(detail,
                             context = NULL,
                             fn = NULL,
+                            groupname_col = NULL,
+                            palette = NULL,
+                            aesthetics = "color",
                             number = FALSE,
                             overlay = NULL,
                             paper = NULL,
@@ -22,39 +28,55 @@ make_detail_map <- function(detail,
                             detail_diag_ratio = 0.1,
                             access_token = Sys.getenv("MAPBOX_SECRET_TOKEN"),
                             columns = 1,
+                            sort = "lon",
                             rows = 1,
-                            sect_params = list(...)) {
-  stopifnot(
-    check_sf(detail, ext = TRUE)
-  )
-
-  if (check_sf_list(detail)) {
+                            scale = 1,
+                            neatline = TRUE,
+                            neatline_dist = 0,
+                            expand = TRUE,
+                            crs = NULL,
+                            inset_legend = TRUE,
+                            legend_position = NULL,
+                            ...) {
+  if (overedge::check_sf_list(detail)) {
     batch <- length(detail) # list column with data
-  } else if (check_sf(detail, ext = TRUE)) {
-    detail <- list(as_sf(detail)) # coercible sf object in list length 1
+  } else if (overedge::check_sf(detail)) {
+    detail <- list(overedge::as_sf(detail)) # coercible sf object in list length 1
+    # TODO: Should this be a named list, e.g. list("data" = overedge::as_sf(detail))
     batch <- 1
   } else {
     # data frame with nested list column named data (produced by group_by then group_nest using keep_all = TRUE)
-    if ((data %in% names(detail)) && check_sf_list(detail$data)) {
+    if (("data" %in% names(detail)) && overedge::check_sf_list(detail$data)) {
       # FIXME: This may not be preferred in all cases
       detail <- detail$data
       batch <- length(detail)
+    } else {
+      usethis::ui_stop("The object passed to detail does not match any supported formats.
+                       Supported format include an sf object, a list of sf objects, or a data frame with a nested list column where each row is an sf object.")
     }
   }
-  if (!is.null(context)) {
+
+  # FIXME: If this function can put data back together should it also handle the nest_group function and be able to take it apart
+  # This would require disambiguating geographical grouping variables from display grouping variables which will typically be different
+  detail_df <- dplyr::bind_rows(detail)
+
+  # FIXME: Should this be dependent on a NULL orientation value if the only use for the context_bbox is to generate a page orientation
+  if (!is.null(context) && (is.numeric(context_dist) || is.null(context_dist))) {
     context_bbox <-
-      st_bbox_ext(
+      overedge::st_bbox_ext(
         x = context,
-        dist = dist$context,
-        asp = NULL # TODO: Consider alternatives to this approach
+        dist = context_dist,
+        asp = NULL, # TODO: Consider alternatives to this two-step approach to bounding box generation
+        crs = crs
       )
   } else {
     context_bbox <- NULL
   }
 
+  # TODO: This could be a check_paper function or added to the existing get_paper function in overedge
   if (is.character(paper)) {
-    if (is.null(orientation) && (check_bbox(context_bbox, ext = TRUE))) {
-      orientation <- sf_bbox_asp(bbox = context_bbox, orientation = TRUE)
+    if (is.null(orientation) && (overedge::check_bbox(context_bbox, ext = TRUE))) {
+      orientation <- overedge::sf_bbox_asp(bbox = context_bbox, orientation = TRUE)
     }
     detail_paper <- overedge::get_paper(paper = paper, orientation = orientation)
   } else if (is.data.frame(paper)) {
@@ -66,39 +88,84 @@ make_detail_map <- function(detail,
   }
 
   # TODO: Re-implement margins here to get the block_asp value
-
+  # FIXME:
   if (!is.null(context)) {
     context_bbox <-
-      st_bbox_ext(
+      overedge::st_bbox_ext(
         x = context,
         dist = context_dist,
-        asp = paper$asp
+        asp = detail_paper$asp,
+        crs = crs
       )
   }
 
-
+  # Divide width and height by rows and columns if needed
+  # TODO: This should be implemented in get_paper
   if ((columns > 1) || rows > 1) {
-    paper$cols <- columns
-    paper$col_width <- paper$width / columns
-    paper$rows <- rows
-    paper$row_height <- paper$height / rows
-    paper$section_asp <- paper$col_width / paper$row_height
+    detail_paper$cols <- columns
+    detail_paper$col_width <- detail_paper$width / columns
+    detail_paper$rows <- rows
+    detail_paper$row_height <- detail_paper$height / rows
+    detail_paper$section_asp <- detail_paper$col_width / detail_paper$row_height
+
+    usethis::ui_info("Based on the provided paper ({paper}), orientation, rows, and/or columns, the expected detail map size is {col_width} by {row_height}.")
   } else {
-    paper$section_asp <- paper$asp
+    detail_paper$section_asp <- detail_paper$asp
   }
 
+  # Create maps with make_section_map
   detail_maps <-
     map(
       detail,
-      ~ make_section_map(.x,
+      ~ make_section_map(
+        section = .x,
+        groupname_col = groupname_col,
+        overlay = overlay,
+        # FIXME: group scale should avoid the need to add scales as below
         access_token = access_token,
         fn = fn,
-        asp = paper$section_asp,
+        sort = sort,
+        asp = detail_paper$section_asp,
         scale = scale,
-        numbered = numbered,
-        sect_params = sect_params
+        number = number,
+        neatline = neatline,
+        neatline_dist = neatline_dist,
+        expand = expand,
+        crs = crs,
+        ...
       )
     )
+
+  # Create scale based on detail_df and groupname_col
+  if (!is.null(groupname_col)) {
+    group_scale <-
+      scale_group_data(
+        data = detail_df,
+        groupname_col = groupname_col,
+        palette = palette,
+        aesthetics = aesthetics
+      )
+  } else {
+    group_scale <- NULL
+  }
+
+  detail_legend <-
+    overedge::theme_legend(
+      position = legend_position,
+      #  margin = 10,
+      #  unit = "pt",
+      inset = inset_legend
+    )
+
+  # Combine detail maps with scale and legend
+  detail_maps <-
+    purrr::map(
+      detail_maps,
+      ~ .x +
+        group_scale +
+        detail_legend
+    )
+
 
   return(detail_maps)
 }
@@ -117,9 +184,8 @@ make_detail_map <- function(detail,
 #' - access_token and scale - used to create section base map
 #' - number - indicator of whether to call layer_number_markers and add to layers for section map
 #'
-#' All other parameters are defined by creating a nested named list for
-#' sect_params. Supported options for sect_params are passed to one of the
-#' following functions:
+#' All other parameters are defined by the dots ... Supported options for ...
+#' are passed to one of the following functions:
 #'
 #' - layer_number_markers: sort, number_col, and group_col parameters
 #' - [overedge::theme_legend]: all parameters (except method) area supported but these
@@ -132,66 +198,83 @@ make_detail_map <- function(detail,
 #' All of these variables are currently defined globally and cannot be modified
 #' for detail maps with the section (unless you call make_section_map directly).
 #'
-#' @param section PARAM_DESCRIPTION
-#' @param overlay PARAM_DESCRIPTION, Default: NULL
-#' @param fn PARAM_DESCRIPTION, Default: NULL
-#' @param access_token PARAM_DESCRIPTION, Default: NULL
-#' @param scale PARAM_DESCRIPTION, Default: 0.6
-#' @param asp PARAM_DESCRIPTION, Default: NULL
-#' @param number PARAM_DESCRIPTION, Default: FALSE
-#' @param sect_params PARAM_DESCRIPTION, Default: list(...)
+#' @param section Section (sf obect)
+#' @param overlay Overlay, Default: NULL
+#' @param fn Function, Default: NULL
+#' @param access_token Mapbox access token, Default: NULL
+#' @param scale Scale, Default: 0.6
+#' @param asp Aspect ratio, Default: NULL
+#' @param number If TRUE, number data, Default: FALSE
+#' @param ... Additional parameters used by various functions.
 #' @details DETAILS
 #' @rdname make_detail_map
 #' @name make_section_map
 #' @export
 #' @importFrom rlang list2 as_function
 make_section_map <- function(section,
+                             groupname_col = NULL,
                              overlay = NULL,
                              fn = NULL,
+                             sort = NULL,
                              access_token = NULL,
                              scale = 0.6,
                              asp = NULL,
                              number = FALSE,
-                             sect_params = list(...)) {
+                             neatline = TRUE,
+                             neatline_dist = 0,
+                             expand = TRUE,
+                             crs = NULL,
+                             ...) {
   if (!is.null(fn)) {
     fn <- rlang::as_function(fn)
     section <- fn(section)
   }
+
+  sect_params <- rlang::list2(...)
+
+  mapbox_crs <- 3857
 
   sect_bbox <-
     st_bbox_ext(
       x = section,
       asp = asp,
       dist = sect_params$dist,
-      diag_ratio = sect_params$diag_ratio
+      diag_ratio = sect_params$diag_ratio,
+      crs = mapbox_crs
     )
 
-  sect_layers <-
+  sect_basemap <-
     make_mapbox_basemap(
       data = sect_bbox,
       scale = scale,
-      access_token = access_token
+      access_token = access_token,
+      basemap = TRUE,
+      crs = mapbox_crs
     )
 
-  if (numbered) {
-    sect_layers <-
-      list(
-        sect_layers,
-        layer_number_markers(
-          data = section,
-          sort = sect_params$sort,
-          number_col = sect_params$number_col,
-          groupname_col = sect_params$groupname_col
-        )
+  if (number) {
+    sect_layer <-
+      layer_number_markers(
+        data = section,
+        sort = sort,
+        groupname_col = groupname_col,
+        crs = crs
       )
-    }
+  } else {
+    sect_layer <-
+      layer_show_markers(
+        data = section,
+        sort = sort,
+        groupname_col = groupname_col,
+        crs = crs
+      )
+  }
 
-
+  # FIXME: This may not be needed if legends are being applied in the wrapping function
   if ("legend" %in% sect_params) {
-    if (is.list(legend)) {
-      sect_layers <- list(
-        sect_layers,
-        theme_legend(
+    if (is.list(sect_params$legend)) {
+      legend_layer <-
+        overedge::theme_legend(
           position = sect_params$legend$position,
           margin = sect_params$legend$margin,
           unit = sect_params$legend$unit,
@@ -199,27 +282,34 @@ make_section_map <- function(section,
           bgcolor = sect_params$legend$bgcolor,
           justification = sect_params$legend$bgcolor
         )
-      )
     }
+  } else {
+    legend_layer <- NULL
   }
 
-  if (is.null(overlay) && check_class(overlay, "ggproto")) {
-    sect_layers <- list(
-      sect_layers,
-      overlay
-    )
+  if (!is.null(overlay) && check_class(overlay, "ggproto")) {
+    overlay_layer <- overlay
+  } else {
+    overlay_layer <- NULL
   }
 
 
   if (neatline) {
-    sect_layers <- list(
-      sect_layers,
+    neatline_layer <-
       layer_neatline(
         data = sect_bbox,
-        dist = sect_params$neatline_dist, # TODO: Document the existence of the neatline_dist parameter as distinct from sect_params$dist used to create the section_bbox
+        dist = neatline_dist, # TODO: Document the existence of the neatline_dist parameter as distinct from sect_params$dist used to create the section_bbox
         asp = asp,
-        expand = sect_params$expand
+        expand = expand,
+        crs = crs
       )
-    )
+  } else {
+    neatline_layer <- NULL
   }
+
+  sect_basemap +
+    sect_layer +
+    legend_layer +
+    overlay_layer +
+    neatline_layer
 }

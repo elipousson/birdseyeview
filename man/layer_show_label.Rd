@@ -56,16 +56,13 @@ Note:
 \itemize{
 \item Unlike in some overedge package functions, fn is applied to the whole data; not a
 subset of the data based on location.
-\item For this function, dist and unit are both used by st_clip not by
-layer_location_data
+\item For this function, dist and unit are both used by \code{\link[overedge:st_clip]{overedge::st_clip()}} (not by
+\link{layer_location_data})
 }
 
-The function also overides the label aesthetics to hide the colored letters
+The function also overrides the label aesthetics to hide the colored letters
 that would otherwise appear when using a theme legend.
 }
 \seealso{
 \code{\link[overedge]{st_clip}},\code{\link[overedge]{layer_location_data}}
-\itemize{
-\item \code{\link[mapbaltimore:label_area_streets]{mapbaltimore::label_area_streets()}}
-}
 }

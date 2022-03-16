@@ -8,6 +8,11 @@ check_url <- function(x) {
   )
 }
 
+#' @noRd
+check_class <- function(x, check = NULL) {
+  any(check %in% class(x))
+}
+
 #' Group by column name if present
 #'
 #' Group is groupname_col is not NULL and is present in data. Stop if name is not present and data is not NULL.

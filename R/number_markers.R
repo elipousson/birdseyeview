@@ -13,6 +13,8 @@
 number_markers <- function(data, groupname_col = NULL, number = TRUE, sort = "lon", desc = FALSE) {
   number_col <- "number"
 
+  sort <- match.arg(sort, c("lon", "lat", "title", "label", names(data)))
+
   if ((sort %in% c("lat", "lon")) && !all(c("lat", "lon") %in% names(data))) {
     data <-
       overedge::st_coords(

@@ -57,7 +57,6 @@ tbl_marker_key <- function(data,
       ) %>%
       dplyr::arrange(dplyr::desc(name)) %>%
       tibble::deframe()
-
   }
 
   return(tbl)

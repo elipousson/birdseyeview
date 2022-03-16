@@ -1,8 +1,15 @@
 #' Add a marker layer to a map with or without numbered markers
 #'
+#' If get is `TRUE`, groupname_col, group_meta, crs, and fn is all passed on to
+#' get_markers.
+#'
+#' The number parameter is not currently supported so the number_col parameter
+#' is not implemented.
+#'
 #' @inheritParams get_markers
 #' @param get If `TRUE`, pass data to get_markers.
-#' @param number If `TRUE`, number markers using [layer_number_markers()]
+#' @param number If `TRUE`, number markers using [layer_number_markers()] (not
+#'   currently supported)
 #' @param style Style; defaults to `NULL` for [layer_show_markers()] (supports
 #'   "facet"); defaults to "roundrect" for [layer_number_markers()],
 #' @param ... Additional parameters passed to [layer_group_data()]
@@ -24,10 +31,10 @@
 #' @importFrom ggplot2 facet_wrap
 layer_show_markers <- function(data,
                                mapping = NULL,
+                               style = NULL, # "facet",
                                get = TRUE,
                                groupname_col = NULL,
                                group_meta = NULL,
-                               style = NULL, # "facet",
                                crs = NULL,
                                fn = NULL,
                                number = FALSE,
@@ -46,6 +53,8 @@ layer_show_markers <- function(data,
 
   if (number) {
     # FIXME: Add in numbering
+    usethis::ui_stop("The number parameter is not currently supported for {usethis::ui_code('layer_show_markers()')}.
+                     Consider using {usethis::ui_code('layer_number_markers()')} instead.")
   }
 
   if (!is.null(style) && (style == "facet")) {
@@ -82,6 +91,7 @@ layer_number_markers <- function(data,
                                  geom = "label",
                                  sort = "lon",
                                  desc = FALSE,
+                                 scale = NULL,
                                  ...) {
   if (is.null(number_col)) {
     data <- number_markers(data = data, groupname_col = groupname_col, sort = sort, desc = desc)
@@ -154,6 +164,7 @@ layer_number_markers <- function(data,
       vjust = vjust,
       ...
     ),
+    scale,
     ggplot2::guides(
       fill = ggplot2::guide_legend(
         override.aes = ggplot2::aes(label = "")

@@ -9,10 +9,10 @@
 #'
 #' - Unlike in some overedge package functions, fn is applied to the whole data; not a
 #' subset of the data based on location.
-#' - For this function, dist and unit are both used by st_clip not by
-#' layer_location_data
+#' - For this function, dist and unit are both used by [overedge::st_clip()] (not by
+#' [layer_location_data])
 #'
-#' The function also overides the label aesthetics to hide the colored letters
+#' The function also overrides the label aesthetics to hide the colored letters
 #' that would otherwise appear when using a theme legend.
 #'
 #' @param data Data to use for label creation
@@ -26,7 +26,6 @@
 #' @param ... Additional parameters passed to [overedge::layer_location_data]
 #' @seealso
 #'  \code{\link[overedge]{st_clip}},\code{\link[overedge]{layer_location_data}}
-#'  - [mapbaltimore::label_area_streets()]
 #' @rdname layer_show_label
 #' @aliases layer_label
 #' @export

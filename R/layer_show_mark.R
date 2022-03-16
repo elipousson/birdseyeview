@@ -81,15 +81,15 @@
 #' @importFrom rlang as_function
 #' @importFrom utils modifyList
 layer_show_mark <- function(data,
-                       fn = NULL,
-                       mapping = NULL,
-                       label_col = NULL,
-                       desc_col = NULL,
-                       geom = NULL,
-                       cast = TRUE,
-                       expand = ggplot2::unit(5, "mm"),
-                       radius = expand,
-                       ...) {
+                            fn = NULL,
+                            mapping = NULL,
+                            label_col = NULL,
+                            desc_col = NULL,
+                            geom = NULL,
+                            cast = TRUE,
+                            expand = ggplot2::unit(5, "mm"),
+                            radius = expand,
+                            ...) {
   data <- overedge::as_sf(data)
 
   if (!is.null(fn)) {

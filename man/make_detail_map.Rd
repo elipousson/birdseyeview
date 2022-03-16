@@ -9,6 +9,9 @@ make_detail_map(
   detail,
   context = NULL,
   fn = NULL,
+  groupname_col = NULL,
+  palette = NULL,
+  aesthetics = "color",
   number = FALSE,
   overlay = NULL,
   paper = NULL,
@@ -17,41 +20,57 @@ make_detail_map(
   detail_diag_ratio = 0.1,
   access_token = Sys.getenv("MAPBOX_SECRET_TOKEN"),
   columns = 1,
+  sort = "lon",
   rows = 1,
-  sect_params = list(...)
+  scale = 1,
+  neatline = TRUE,
+  neatline_dist = 0,
+  expand = TRUE,
+  crs = NULL,
+  inset_legend = TRUE,
+  legend_position = NULL,
+  ...
 )
 
 make_section_map(
   section,
+  groupname_col = NULL,
   overlay = NULL,
   fn = NULL,
+  sort = NULL,
   access_token = NULL,
   scale = 0.6,
   asp = NULL,
   number = FALSE,
-  sect_params = list(...)
+  neatline = TRUE,
+  neatline_dist = 0,
+  expand = TRUE,
+  crs = NULL,
+  ...
 )
 }
 \arguments{
-\item{detail}{an sf object (or object that is convertible with \code{\link[overedge:as_sf]{overedge::as_sf()}}), list of sf objects, or data frame with a sf list column named data}
+\item{detail}{an sf object (or object that is convertible with
+\code{\link[overedge:as_sf]{overedge::as_sf()}}), list of sf objects, or data frame with a sf list
+column named data}
 
 \item{context}{Broader context area containing all detail maps, Default: NULL}
 
-\item{fn}{PARAM_DESCRIPTION, Default: NULL}
+\item{fn}{Function, Default: NULL}
 
-\item{number}{PARAM_DESCRIPTION, Default: FALSE}
+\item{number}{If TRUE, number data, Default: FALSE}
 
-\item{overlay}{PARAM_DESCRIPTION, Default: NULL}
+\item{overlay}{Overlay, Default: NULL}
 
-\item{access_token}{PARAM_DESCRIPTION, Default: NULL}
+\item{access_token}{Mapbox access token, Default: NULL}
 
-\item{sect_params}{PARAM_DESCRIPTION, Default: list(...)}
+\item{scale}{Scale, Default: 0.6}
 
-\item{section}{PARAM_DESCRIPTION}
+\item{...}{Additional parameters used by various functions.}
 
-\item{scale}{PARAM_DESCRIPTION, Default: 0.6}
+\item{section}{Section (sf obect)}
 
-\item{asp}{PARAM_DESCRIPTION, Default: NULL}
+\item{asp}{Aspect ratio, Default: NULL}
 }
 \description{
 Make detail maps, e.g. nodes of development within a broader area, examples
@@ -74,9 +93,8 @@ including:
 \item number - indicator of whether to call layer_number_markers and add to layers for section map
 }
 
-All other parameters are defined by creating a nested named list for
-sect_params. Supported options for sect_params are passed to one of the
-following functions:
+All other parameters are defined by the dots ... Supported options for ...
+are passed to one of the following functions:
 \itemize{
 \item layer_number_markers: sort, number_col, and group_col parameters
 \item \link[overedge:theme_ext]{overedge::theme_legend}: all parameters (except method) area supported but these

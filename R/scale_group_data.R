@@ -24,8 +24,8 @@ scale_group_data <-
            na.value = "grey50",
            drop = FALSE,
            limits = NULL,
-           scale = "fill") {
-    scale <- match.arg(scale, c("fill", "color"), several.ok = TRUE)
+           aesthetics = "fill") {
+    aesthetics <- match.arg(aesthetics, c("fill", "color"), several.ok = TRUE)
 
     group_pal <-
       group_data_pal(
@@ -39,7 +39,7 @@ scale_group_data <-
     scale_fill <- NULL
     scale_color <- NULL
 
-    if ("fill" %in% scale) {
+    if ("fill" %in% aesthetics) {
       scale_fill <-
         list(
           ggplot2::scale_fill_discrete(limits = names(group_pal)),
@@ -53,9 +53,9 @@ scale_group_data <-
         )
     }
 
-    if ("color" %in% scale) {
-      scale_fill <-
-        scale_color(
+    if ("color" %in% aesthetics) {
+      scale_color <-
+        list(
           ggplot2::scale_color_discrete(limits = names(group_pal)),
           ggplot2::scale_color_manual(
             ...,
@@ -71,7 +71,6 @@ scale_group_data <-
       scale_fill,
       scale_color
     )
-
   }
 
 #' @name group_data_pal

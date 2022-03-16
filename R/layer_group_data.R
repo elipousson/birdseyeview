@@ -1,5 +1,10 @@
 #' Make group layers
 #'
+#' Can be used to make multiple layers or multiple maps based on a grouping
+#' variable.
+#'
+#' Scales are applied a palette and aesthetic are provided and basemap is set to `TRUE`.
+#'
 #' @inheritParams overedge::layer_location_data
 #' @param groupname_col Group column name
 #' @param layers If `TRUE`; return a list of layers; if `FALSE`; return a list
@@ -15,34 +20,74 @@ layer_group_data <- function(data,
                              mapping = NULL,
                              groupname_col = "group",
                              geom = "sf",
-                             layers = TRUE,
+                             basemap = FALSE,
+                             palette = NULL,
+                             aesthetics = "color",
                              ...) {
-  if (!is.null(groupname_col)) {
-    data <- data %>% dplyr::group_by({{ groupname_col }})
-  }
+  geom_type <- overedge::st_geom_type(x = data)
 
+  data <- group_by_col(data = data, groupname_col = groupname_col)
   nested <- dplyr::group_nest(data, keep = TRUE)
 
-  if (layers) {
-    purrr::map(
-      nested$data,
-      ~ overedge::layer_location_data(
-        mapping = mapping,
-        data = .x,
-        geom = geom,
-        ...
-      )
+  if ((geom_type$POINTS || geom_type$LINESTRINGS) && !("color" %in% aesthetics)) {
+    usethis::ui_warn("Your data has {usethis::ui_value(geom_type$TYPES)} geometry which is typically used with a 'color' aesthetic mapping.")
+  } else if (geom_type$POLYGONS && !("fill" %in% aesthetics)) {
+    usethis::ui_warn("Your data has {usethis::ui_value(geom_type$TYPES)} geometry which is typically used with a 'fill' aesthetic mapping.")
+  }
+
+  # FIXME: This is the older method that is replaced by group_by_col
+  # if (!is.null(groupname_col)) {
+  #   data <- dplyr::group_by(data, {{ groupname_col }})
+  # }
+
+  if (("color" %in% aesthetics) && !("color" %in% names(mapping))) {
+    mapping <- modify_mapping(mapping = mapping, color = groupname_col)
+  }
+
+  if (("fill" %in% aesthetics) && !("fill" %in% names(mapping))) {
+    mapping <- modify_mapping(mapping = mapping, fill = groupname_col)
+  }
+
+  group_layers <- purrr::map(
+    nested$data,
+    ~ overedge::layer_location_data(
+      mapping = mapping,
+      data = .x,
+      geom = geom,
+      ...
     )
-  } else {
-    purrr::map(
-      nested$data,
+  )
+
+  if (basemap) {
+    group_layers <- purrr::map(
+      group_layers,
       ~ ggplot2::ggplot() +
-        overedge::layer_location_data(
-          mapping = mapping,
-          data = .x,
-          geom = geom,
-          ...
-        )
+        .x
     )
   }
+
+  # Create scale based on detail_df and groupname_col
+  if (!is.null(groupname_col) && !is.null(palette)) {
+    group_scale <-
+      scale_group_data(
+        data = dplyr::bind_rows(nested$data),
+        groupname_col = groupname_col,
+        palette = palette,
+        aesthetics = aesthetics
+      )
+
+    if (basemap) {
+      # Combine detail maps with scale and legend
+      group_layers <-
+        suppressMessages(
+          purrr::map(
+            group_layers,
+            ~ .x +
+              group_scale
+          )
+        )
+    }
+  }
+
+  return(group_layers)
 }

@@ -15,7 +15,7 @@ scale_group_data(
   na.value = "grey50",
   drop = FALSE,
   limits = NULL,
-  scale = "fill"
+  aesthetics = "fill"
 )
 
 group_data_pal(
@@ -83,6 +83,11 @@ packagename::palettename.}
 \item{direction}{Either \code{1} or \code{-1}. If \code{-1} the palette will be reversed.}
 
 \item{na.value}{The aesthetic value to use for missing (\code{NA}) values}
+
+\item{aesthetics}{Character string or vector of character strings listing the
+name(s) of the aesthetic(s) that this scale works with. This can be useful, for
+example, to apply colour settings to the \code{colour} and \code{fill} aesthetics at the
+same time, via \code{aesthetics = c("colour", "fill")}.}
 }
 \description{
 Designed for use with layer_group_data. group_data_pal generates palettes

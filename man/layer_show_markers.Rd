@@ -8,10 +8,10 @@
 layer_show_markers(
   data,
   mapping = NULL,
+  style = NULL,
   get = TRUE,
   groupname_col = NULL,
   group_meta = NULL,
-  style = NULL,
   crs = NULL,
   fn = NULL,
   number = FALSE,
@@ -29,11 +29,15 @@ layer_number_markers(
   geom = "label",
   sort = "lon",
   desc = FALSE,
+  scale = NULL,
   ...
 )
 }
 \arguments{
 \item{data}{Data with markers, passed to data parameter of \code{\link[overedge:get_location_data]{overedge::get_location_data()}}}
+
+\item{style}{Style; defaults to \code{NULL} for \code{\link[=layer_show_markers]{layer_show_markers()}} (supports
+"facet"); defaults to "roundrect" for \code{\link[=layer_number_markers]{layer_number_markers()}},}
 
 \item{get}{If \code{TRUE}, pass data to get_markers.}
 
@@ -41,14 +45,12 @@ layer_number_markers(
 
 \item{group_meta}{Group metadata as a data frame or sf object that intersect with markers; Default: \code{NULL}}
 
-\item{style}{Style; defaults to \code{NULL} for \code{\link[=layer_show_markers]{layer_show_markers()}} (supports
-"facet"); defaults to "roundrect" for \code{\link[=layer_number_markers]{layer_number_markers()}},}
-
 \item{crs}{Coordinate reference system for markers, Default: \code{NULL}}
 
 \item{fn}{Function to apply to data before results; gives warning if data is grouped; Default: \code{NULL}}
 
-\item{number}{If \code{TRUE}, number markers using \code{\link[=layer_number_markers]{layer_number_markers()}}}
+\item{number}{If \code{TRUE}, number markers using \code{\link[=layer_number_markers]{layer_number_markers()}} (not
+currently supported)}
 
 \item{number_col}{Name of column with numbers; defaults to NULL.}
 
@@ -61,7 +63,12 @@ layer_number_markers(
 ggplot2 layers
 }
 \description{
-Add a marker layer to a map with or without numbered markers
+If get is \code{TRUE}, groupname_col, group_meta, crs, and fn is all passed on to
+get_markers.
+}
+\details{
+The number parameter is not currently supported so the number_col parameter
+is not implemented.
 }
 \examples{
 \dontrun{
