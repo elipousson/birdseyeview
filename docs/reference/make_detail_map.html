@@ -72,7 +72,7 @@ of a type using data created by using <code><a href="https://dplyr.tidyverse.org
   fn <span class="op">=</span> <span class="cn">NULL</span>,
   groupname_col <span class="op">=</span> <span class="cn">NULL</span>,
   palette <span class="op">=</span> <span class="cn">NULL</span>,
-  aesthetics <span class="op">=</span> <span class="st">"color"</span>,
+  aesthetics <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"color"</span>, <span class="st">"fill"</span><span class="op">)</span>,
   number <span class="op">=</span> <span class="cn">FALSE</span>,
   overlay <span class="op">=</span> <span class="cn">NULL</span>,
   paper <span class="op">=</span> <span class="cn">NULL</span>,
@@ -80,16 +80,19 @@ of a type using data created by using <code><a href="https://dplyr.tidyverse.org
   context_dist <span class="op">=</span> <span class="fl">0</span>,
   detail_diag_ratio <span class="op">=</span> <span class="fl">0.1</span>,
   access_token <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Sys.getenv.html" class="external-link">Sys.getenv</a></span><span class="op">(</span><span class="st">"MAPBOX_SECRET_TOKEN"</span><span class="op">)</span>,
-  columns <span class="op">=</span> <span class="fl">1</span>,
-  sort <span class="op">=</span> <span class="st">"lon"</span>,
+  cols <span class="op">=</span> <span class="fl">1</span>,
   rows <span class="op">=</span> <span class="fl">1</span>,
+  margin <span class="op">=</span> <span class="st">"none"</span>,
+  gutter <span class="op">=</span> <span class="fl">0</span>,
+  sort <span class="op">=</span> <span class="st">"lon"</span>,
   scale <span class="op">=</span> <span class="fl">1</span>,
   neatline <span class="op">=</span> <span class="cn">TRUE</span>,
-  neatline_dist <span class="op">=</span> <span class="fl">0</span>,
-  expand <span class="op">=</span> <span class="cn">TRUE</span>,
+  neatline_params <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>dist <span class="op">=</span> <span class="fl">0</span>, diag_ratio <span class="op">=</span> <span class="cn">NULL</span>, color <span class="op">=</span> <span class="st">"black"</span>, size <span class="op">=</span> <span class="fl">1</span>, expand
+    <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>,
   crs <span class="op">=</span> <span class="cn">NULL</span>,
   inset_legend <span class="op">=</span> <span class="cn">TRUE</span>,
-  legend_position <span class="op">=</span> <span class="cn">NULL</span>,
+  legend_position <span class="op">=</span> <span class="st">"bottomleft"</span>,
+  labs_ext <span class="op">=</span> <span class="cn">NULL</span>,
   <span class="va">...</span>
 <span class="op">)</span>
 
@@ -104,7 +107,8 @@ of a type using data created by using <code><a href="https://dplyr.tidyverse.org
   asp <span class="op">=</span> <span class="cn">NULL</span>,
   number <span class="op">=</span> <span class="cn">FALSE</span>,
   neatline <span class="op">=</span> <span class="cn">TRUE</span>,
-  neatline_dist <span class="op">=</span> <span class="fl">0</span>,
+  neatline_params <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>dist <span class="op">=</span> <span class="fl">0</span>, diag_ratio <span class="op">=</span> <span class="cn">NULL</span>, color <span class="op">=</span> <span class="st">"black"</span>, size <span class="op">=</span> <span class="fl">1</span>, expand
+    <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>,
   expand <span class="op">=</span> <span class="cn">TRUE</span>,
   crs <span class="op">=</span> <span class="cn">NULL</span>,
   <span class="va">...</span>
@@ -125,10 +129,33 @@ column named data</p></dd>
 <dd><p>If TRUE, number data, Default: FALSE</p></dd>
 <dt>overlay</dt>
 <dd><p>Overlay, Default: NULL</p></dd>
+<dt>paper</dt>
+<dd><p>Paper, Default: 'letter'.</p></dd>
+<dt>orientation</dt>
+<dd><p>Orientation "portrait", "landscape", or "square", Default:
+'portrait'.</p></dd>
 <dt>access_token</dt>
 <dd><p>Mapbox access token, Default: NULL</p></dd>
+<dt>cols</dt>
+<dd><p>Number of expected columns and rows in paper; used to
+determine row_height and section_asp in paper data frame returned by
+get_paper if rows or cols is greater than 1; defaults to <code>NULL</code>.</p></dd>
+<dt>rows</dt>
+<dd><p>Number of expected columns and rows in paper; used to
+determine row_height and section_asp in paper data frame returned by
+get_paper if rows or cols is greater than 1; defaults to <code>NULL</code>.</p></dd>
+<dt>margin</dt>
+<dd><p>Margin style (options include "extrawide", "wide", "standard",
+"narrow", "none"), Additional "auto" option to generate margin based on
+line length is planned but not yet implemented. Default: <code>NULL</code> (equivalent
+to "none").</p></dd>
 <dt>scale</dt>
 <dd><p>Scale, Default: 0.6</p></dd>
+<dt>neatline_params</dt>
+<dd><p>List with dist, diag_ratio, color, size, and expand
+passed on to layer_neatline.</p></dd>
+<dt>labs_ext</dt>
+<dd><p>Label object created with <a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">ggplot2::labs</a> or <a href="https://rdrr.io/pkg/overedge/man/labs_ext.html" class="external-link">overedge::labs_ext</a> function.</p></dd>
 <dt>...</dt>
 <dd><p>Additional parameters used by various functions.</p></dd>
 <dt>section</dt>
@@ -157,7 +184,6 @@ allow the adjustment of the section neatline (needed for the expand parameter
 to work as expected)</p></li>
 </ul><p>All of these variables are currently defined globally and cannot be modified
 for detail maps with the section (unless you call make_section_map directly).</p>
-<p>DETAILS</p>
     </div>
 
   </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>
