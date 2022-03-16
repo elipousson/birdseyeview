@@ -27,7 +27,7 @@ scale_group_data <-
            scale = "fill") {
     scale <- match.arg(scale, c("fill", "color"), several.ok = TRUE)
 
-    group_colors <-
+    group_pal <-
       group_data_pal(
         data = data,
         groupname_col = groupname_col,
@@ -41,23 +41,29 @@ scale_group_data <-
 
     if ("fill" %in% scale) {
       scale_fill <-
-        ggplot2::scale_fill_manual(
-          ...,
-          values = group_colors,
-          na.value = na.value,
-          limits = limits,
-          drop = drop
+        list(
+          ggplot2::scale_fill_discrete(limits = names(group_pal)),
+          ggplot2::scale_fill_manual(
+            ...,
+            values = group_pal,
+            limits = names(group_pal),
+            na.value = na.value,
+            drop = drop
+          )
         )
     }
 
     if ("color" %in% scale) {
-      scale_color <-
-        ggplot2::scale_color_manual(
-          ...,
-          values = group_colors,
-          na.value = na.value,
-          limits = limits,
-          drop = drop
+      scale_fill <-
+        scale_color(
+          ggplot2::scale_color_discrete(limits = names(group_pal)),
+          ggplot2::scale_color_manual(
+            ...,
+            values = group_pal,
+            limits = names(group_pal),
+            na.value = na.value,
+            drop = drop
+          )
         )
     }
 
@@ -65,6 +71,7 @@ scale_group_data <-
       scale_fill,
       scale_color
     )
+
   }
 
 #' @name group_data_pal
