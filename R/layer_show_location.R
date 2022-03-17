@@ -28,11 +28,12 @@ layer_show_location <-
            name = NULL,
            id = NULL,
            location = NULL,
-           label_geom = NULL,
            name_col = "name",
            id_col = "id",
            index = NULL,
            label = NULL,
+           label_geom = NULL,
+           label_col = name_col,
            union = FALSE,
            smooth = TRUE,
            crs = NULL,
@@ -78,14 +79,14 @@ layer_show_location <-
       )
 
     if (!is.null(label_geom)) {
-      label_geom <- match.arg(label_geom, c("label", "text"))
+     # label_geom <- match.arg(label_geom, c("label", "text"))
 
       label_layer <-
-        overedge::layer_location_data(
+        layer_show_label(
           data = data,
           color = "black",
           geom = label_geom,
-          aes(label = .data[[name_col]])
+          label_col = label_col
         )
 
       location_layer <-
@@ -117,7 +118,6 @@ layer_show_location <-
     } else {
       mask_layer <- NULL
     }
-
 
     if (neatline) {
       neatline_layer <-

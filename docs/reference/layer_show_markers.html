@@ -66,14 +66,16 @@ get_markers.</p>
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">layer_show_markers</span><span class="op">(</span>
   <span class="va">data</span>,
   mapping <span class="op">=</span> <span class="cn">NULL</span>,
+  geom <span class="op">=</span> <span class="st">"sf"</span>,
   style <span class="op">=</span> <span class="cn">NULL</span>,
-  get <span class="op">=</span> <span class="cn">TRUE</span>,
+  get <span class="op">=</span> <span class="cn">FALSE</span>,
   groupname_col <span class="op">=</span> <span class="cn">NULL</span>,
   group_meta <span class="op">=</span> <span class="cn">NULL</span>,
   crs <span class="op">=</span> <span class="cn">NULL</span>,
   fn <span class="op">=</span> <span class="cn">NULL</span>,
   number <span class="op">=</span> <span class="cn">FALSE</span>,
   number_col <span class="op">=</span> <span class="cn">NULL</span>,
+  scale <span class="op">=</span> <span class="cn">NULL</span>,
   <span class="va">...</span>
 <span class="op">)</span>
 
@@ -86,7 +88,7 @@ get_markers.</p>
   style <span class="op">=</span> <span class="st">"roundrect"</span>,
   geom <span class="op">=</span> <span class="st">"label"</span>,
   sort <span class="op">=</span> <span class="st">"lon"</span>,
-  desc <span class="op">=</span> <span class="cn">FALSE</span>,
+  desc <span class="op">=</span> <span class="cn">NULL</span>,
   scale <span class="op">=</span> <span class="cn">NULL</span>,
   <span class="va">...</span>
 <span class="op">)</span></code></pre></div>
@@ -119,6 +121,9 @@ currently supported)</p></dd>
 (include label.size, label.padding, and label.r to define alternate style)</p></dd>
 <dt>size</dt>
 <dd><p>Marker size, Default: 5</p></dd>
+<dt>desc</dt>
+<dd><p>If <code>TRUE</code>, sort descending; set to <code>FALSE</code> if sort is "lon" and
+TRUE is sort is "lat" or any other value, default <code>NULL</code></p></dd>
 </dl></div>
     <div class="section level2">
     <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>

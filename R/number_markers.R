@@ -1,19 +1,34 @@
 #' Sort and number markers
 #'
+#' Used with [layer_number_markers]
+#'
 #' @param data Marker data
-#' @param groupname_col Group column name, Default: NULL
+#' @param groupname_col Group column name, Default: `NULL`
 #' @param sort_col Sort column name, Default: 'lon'
-#' @param number If TRUE, number the markers, Default: TRUE
-#' @param sort_desc default FALSE
-#' @return OUTPUT_DESCRIPTION
+#' @param number If TRUE, number the markers, Default: `TRUE`
+#' @param desc If `TRUE`, sort descending; set to `FALSE` if sort is "lon" and
+#'   TRUE is sort is "lat" or any other value, default `NULL`
+#' @return A sf object with a number column ordered by sort.
 #' @rdname number_markers
 #' @export
 #' @importFrom overedge st_coords
 #' @importFrom dplyr arrange mutate row_number
-number_markers <- function(data, groupname_col = NULL, number = TRUE, sort = "lon", desc = FALSE) {
+number_markers <- function(data, groupname_col = NULL, number = TRUE, sort = "lon", desc = NULL) {
   number_col <- "number"
 
   sort <- match.arg(sort, c("lon", "lat", "title", "label", names(data)))
+
+  # Set defaults for desc that make sense for the northern hemisphere
+  # TODO: document this or make it an option to reverse
+  if (is.null(desc)) {
+    if (sort == "lon") {
+      desc <- FALSE
+    } else if (sort == "lat") {
+      desc <- TRUE
+    } else {
+      desc <- FALSE
+    }
+  }
 
   if ((sort %in% c("lat", "lon")) && !all(c("lat", "lon") %in% names(data))) {
     data <-

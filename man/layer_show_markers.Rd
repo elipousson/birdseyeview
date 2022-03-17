@@ -8,14 +8,16 @@
 layer_show_markers(
   data,
   mapping = NULL,
+  geom = "sf",
   style = NULL,
-  get = TRUE,
+  get = FALSE,
   groupname_col = NULL,
   group_meta = NULL,
   crs = NULL,
   fn = NULL,
   number = FALSE,
   number_col = NULL,
+  scale = NULL,
   ...
 )
 
@@ -28,7 +30,7 @@ layer_number_markers(
   style = "roundrect",
   geom = "label",
   sort = "lon",
-  desc = FALSE,
+  desc = NULL,
   scale = NULL,
   ...
 )
@@ -58,6 +60,9 @@ currently supported)}
 (include label.size, label.padding, and label.r to define alternate style)}
 
 \item{size}{Marker size, Default: 5}
+
+\item{desc}{If \code{TRUE}, sort descending; set to \code{FALSE} if sort is "lon" and
+TRUE is sort is "lat" or any other value, default \code{NULL}}
 }
 \value{
 ggplot2 layers

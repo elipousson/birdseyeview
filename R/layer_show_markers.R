@@ -31,14 +31,16 @@
 #' @importFrom ggplot2 facet_wrap
 layer_show_markers <- function(data,
                                mapping = NULL,
+                               geom = "sf",
                                style = NULL, # "facet",
-                               get = TRUE,
+                               get = FALSE,
                                groupname_col = NULL,
                                group_meta = NULL,
                                crs = NULL,
                                fn = NULL,
                                number = FALSE,
                                number_col = NULL,
+                               scale = NULL,
                                ...) {
   if (get) {
     data <-
@@ -51,11 +53,21 @@ layer_show_markers <- function(data,
       )
   }
 
-  if (number) {
-    # FIXME: Add in numbering
-    usethis::ui_stop("The number parameter is not currently supported for {usethis::ui_code('layer_show_markers()')}.
-                     Consider using {usethis::ui_code('layer_number_markers()')} instead.")
-  }
+  if (overedge::st_geom_type(x = data)$POINTS) {
+    if (!is.null(groupname_col)) {
+      mapping <-
+        modify_mapping(
+          mapping = mapping,
+          color = groupname_col
+        )
+    }
+  } else if (!is.null(groupname_col)) {
+      mapping <-
+        modify_mapping(
+          mapping = mapping,
+          fill = groupname_col
+        )
+    }
 
   if (!is.null(style) && (style == "facet")) {
     list(
@@ -63,7 +75,15 @@ layer_show_markers <- function(data,
       ggplot2::facet_wrap(~ .data[[groupname_col]])
     )
   } else {
-    layer_group_data(data = data, groupname_col = groupname_col, mapping = mapping, ...)
+    list(
+      overedge::layer_location_data(
+        data = data,
+        geom = geom,
+        mapping = mapping,
+        ...
+      ),
+      scale
+      )
   }
 }
 
@@ -90,7 +110,7 @@ layer_number_markers <- function(data,
                                  style = "roundrect",
                                  geom = "label",
                                  sort = "lon",
-                                 desc = FALSE,
+                                 desc = NULL,
                                  scale = NULL,
                                  ...) {
   if (is.null(number_col)) {

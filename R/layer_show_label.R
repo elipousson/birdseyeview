@@ -57,8 +57,10 @@ layer_show_label <- function(data,
   if (is.character(clip)) {
     # FIXME: st_clip likely should be passed to fn for layer_location_data to apply clip to any subset of the data specified by location rather than the whole area
     clip_fn <- rlang::as_function(~ overedge::st_clip(x = .x, clip = clip, dist = dist))
+  } else if (!is.null(clip)) {
+    clip_fn <- rlang::as_function(~ overedge::st_clip(x = data, clip = clip, dist = dist))
   } else {
-    rlang::as_function(~ overedge::st_clip(x = data, clip = clip, dist = dist))
+    clip_fn <- NULL
   }
 
   # TODO: Double-check this works

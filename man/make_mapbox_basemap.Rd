@@ -12,6 +12,7 @@ make_mapbox_basemap(
   access_token = Sys.getenv("MAPBOX_PUBLIC_TOKEN"),
   basemap = TRUE,
   neatline = TRUE,
+  expand = TRUE,
   ...
 )
 
@@ -22,6 +23,7 @@ layer_show_mapbox(
   access_token = Sys.getenv("MAPBOX_PUBLIC_TOKEN"),
   basemap = FALSE,
   neatline = FALSE,
+  expand = FALSE,
   ...
 )
 }
@@ -37,6 +39,11 @@ layer_show_mapbox(
 \item{basemap}{If FALSE, create a stand alone layer; if TRUE, the layer is precededed by \code{\link[ggplot2:ggplot]{ggplot2::ggplot()}} to allow use as a basempa, Default: TRUE}
 
 \item{neatline}{If TRUE, add a neatline matching the provided data, Default: TRUE}
+
+\item{expand}{Default \code{FALSE.} If \code{TRUE}, the function adds
+\code{\link[ggplot2]{scale_y_continuous}} and
+\code{\link[ggplot2]{scale_x_continuous}} to expand the map extent to
+provided parameters.}
 
 \item{...}{Additional parameter passed to \code{\link[overedge:layer_neatline]{overedge::layer_neatline()}}}
 }

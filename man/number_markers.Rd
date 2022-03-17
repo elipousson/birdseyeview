@@ -9,23 +9,24 @@ number_markers(
   groupname_col = NULL,
   number = TRUE,
   sort = "lon",
-  desc = FALSE
+  desc = NULL
 )
 }
 \arguments{
 \item{data}{Marker data}
 
-\item{groupname_col}{Group column name, Default: NULL}
+\item{groupname_col}{Group column name, Default: \code{NULL}}
 
-\item{number}{If TRUE, number the markers, Default: TRUE}
+\item{number}{If TRUE, number the markers, Default: \code{TRUE}}
+
+\item{desc}{If \code{TRUE}, sort descending; set to \code{FALSE} if sort is "lon" and
+TRUE is sort is "lat" or any other value, default \code{NULL}}
 
 \item{sort_col}{Sort column name, Default: 'lon'}
-
-\item{sort_desc}{default FALSE}
 }
 \value{
-OUTPUT_DESCRIPTION
+A sf object with a number column ordered by sort.
 }
 \description{
-Sort and number markers
+Used with \link{layer_number_markers}
 }

@@ -18,7 +18,7 @@ scale_group_data <-
   function(...,
            data,
            groupname_col = NULL,
-           palette = "khroma::lisbon",
+           palette = NULL,
            n = NULL,
            direction = 1,
            na.value = "grey50",

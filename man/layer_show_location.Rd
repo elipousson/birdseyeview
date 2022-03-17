@@ -11,11 +11,12 @@ layer_show_location(
   name = NULL,
   id = NULL,
   location = NULL,
-  label_geom = NULL,
   name_col = "name",
   id_col = "id",
   index = NULL,
   label = NULL,
+  label_geom = NULL,
+  label_col = name_col,
   union = FALSE,
   smooth = TRUE,
   crs = NULL,
@@ -65,6 +66,9 @@ id is provided.}
 \item{index}{Optional list used to match type to data, Default: \code{NULL}}
 
 \item{label}{label type (e.g. "text", "label")}
+
+\item{label_col}{Column name or id for a column with the text or labels to
+pass to any text geom.}
 
 \item{union}{If \code{TRUE}, the location geometry is unioned with
 \code{\link[sf]{st_union}} and the names are combined into a single value.

@@ -12,6 +12,7 @@
 #' @param access_token Access token, following default format for public token from [mapboxapi::mb_access_token()], Default: Sys.getenv("MAPBOX_PUBLIC_TOKEN")
 #' @param basemap If FALSE, create a stand alone layer; if TRUE, the layer is precededed by [ggplot2::ggplot()] to allow use as a basempa, Default: TRUE
 #' @param neatline If TRUE, add a neatline matching the provided data, Default: TRUE
+#' @inheritParams overedge::layer_neatline
 #' @param ... Additional parameter passed to [overedge::layer_neatline()]
 #' @seealso
 #'  \code{\link[snapbox]{reexports}},\code{\link[snapbox]{layer_mapbox}}
@@ -29,6 +30,7 @@ make_mapbox_basemap <-
            access_token = Sys.getenv("MAPBOX_PUBLIC_TOKEN"),
            basemap = TRUE,
            neatline = TRUE,
+           expand = TRUE,
            ...) {
 
     # Set appropriate CRS for Mapbox
@@ -61,6 +63,8 @@ make_mapbox_basemap <-
           snapbox_layer,
           overedge::layer_neatline(
             data = bbox,
+            expand = expand,
+            crs = crs_mapbox,
             ...
           )
         )
@@ -83,6 +87,7 @@ layer_show_mapbox <- function(data,
                               access_token = Sys.getenv("MAPBOX_PUBLIC_TOKEN"),
                               basemap = FALSE,
                               neatline = FALSE,
+                              expand = FALSE,
                               ...) {
   make_mapbox_basemap(
     data = data,
@@ -91,6 +96,7 @@ layer_show_mapbox <- function(data,
     access_token = access_token,
     basemap = basemap,
     neatline = neatline,
+    expand = expand,
     ...
   )
 }

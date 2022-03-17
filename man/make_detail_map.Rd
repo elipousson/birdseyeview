@@ -7,49 +7,64 @@
 \usage{
 make_detail_map(
   detail,
+  dist = NULL,
+  diag_ratio = NULL,
+  layer_fn = NULL,
   context = NULL,
-  fn = NULL,
+  context_dist = 0,
   groupname_col = NULL,
+  geom = NULL,
   palette = NULL,
   aesthetics = c("color", "fill"),
+  size = 5,
+  alpha = 1,
   number = FALSE,
-  overlay = NULL,
   paper = NULL,
   orientation = NULL,
-  context_dist = 0,
-  detail_diag_ratio = 0.1,
   access_token = Sys.getenv("MAPBOX_SECRET_TOKEN"),
+  map_style = NULL,
+  scale = 1,
   cols = 1,
   rows = 1,
   margin = "none",
   gutter = 0,
   sort = "lon",
-  scale = 1,
   neatline = TRUE,
   neatline_params = list(dist = 0, diag_ratio = NULL, color = "black", size = 1, expand
     = TRUE),
   crs = NULL,
+  fn = NULL,
   inset_legend = TRUE,
   legend_position = "bottomleft",
   labs_ext = NULL,
+  below = NULL,
+  above = NULL,
   ...
 )
 
 make_section_map(
   section,
+  dist = NULL,
+  diag_ratio = NULL,
+  section_asp = NULL,
   groupname_col = NULL,
-  overlay = NULL,
-  fn = NULL,
-  sort = NULL,
   access_token = NULL,
-  scale = 0.6,
-  asp = NULL,
+  map_style = snapbox::mapbox_gallery_moonlight(),
+  size = 5,
+  alpha = 1,
+  geom = NULL,
+  sort = NULL,
+  scale = 0.5,
   number = FALSE,
   neatline = TRUE,
   neatline_params = list(dist = 0, diag_ratio = NULL, color = "black", size = 1, expand
     = TRUE),
   expand = TRUE,
   crs = NULL,
+  fn = NULL,
+  layer_fn = NULL,
+  below = NULL,
+  above = NULL,
   ...
 )
 }
@@ -60,11 +75,11 @@ column named data}
 
 \item{context}{Broader context area containing all detail maps, Default: NULL}
 
-\item{fn}{Function, Default: NULL}
+\item{size}{Size number (only used for "ISO" and "JIS" series). Standard,
+series, and size may all be required to return a single paper when using
+these parameters.}
 
 \item{number}{If TRUE, number data, Default: FALSE}
-
-\item{overlay}{Overlay, Default: NULL}
 
 \item{paper}{Paper, Default: 'letter'.}
 
@@ -72,6 +87,8 @@ column named data}
 'portrait'.}
 
 \item{access_token}{Mapbox access token, Default: NULL}
+
+\item{scale}{Scale, Default: 0.6}
 
 \item{cols}{Number of expected columns and rows in paper; used to
 determine row_height and section_asp in paper data frame returned by
@@ -86,10 +103,10 @@ get_paper if rows or cols is greater than 1; defaults to \code{NULL}.}
 line length is planned but not yet implemented. Default: \code{NULL} (equivalent
 to "none").}
 
-\item{scale}{Scale, Default: 0.6}
-
 \item{neatline_params}{List with dist, diag_ratio, color, size, and expand
 passed on to layer_neatline.}
+
+\item{fn}{Function, Default: NULL}
 
 \item{labs_ext}{Label object created with \link[ggplot2:labs]{ggplot2::labs} or \link[overedge:labs_ext]{overedge::labs_ext} function.}
 
@@ -97,7 +114,9 @@ passed on to layer_neatline.}
 
 \item{section}{Section (sf obect)}
 
-\item{asp}{Aspect ratio, Default: NULL}
+\item{section_asp}{Aspect ratio, Default: NULL}
+
+\item{overlay}{Overlay, Default: NULL}
 }
 \description{
 Make detail maps, e.g. nodes of development within a broader area, examples
