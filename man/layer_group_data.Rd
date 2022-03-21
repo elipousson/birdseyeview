@@ -8,10 +8,11 @@ layer_group_data(
   data,
   mapping = NULL,
   groupname_col = "group",
+  label_col = "name",
   geom = "sf",
   basemap = FALSE,
   palette = NULL,
-  aesthetics = "color",
+  aesthetics = "fill",
   ...
 )
 }
@@ -26,6 +27,9 @@ default), it is combined with the default mapping at the top level of the
 plot. You must supply \code{mapping} if there is no plot mapping.}
 
 \item{groupname_col}{Group column name}
+
+\item{label_col}{Column name or id for a column with the text or labels to
+pass to any text geom.}
 
 \item{geom}{ggplot2 geom to use, Default: 'sf'. Options include "sf"
 (geom_sf), "icon" (geom_sf_icon), "text" (geom_sf_text), "label"

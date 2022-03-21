@@ -152,7 +152,7 @@ layer_snapbox <-
     # Set appropriate CRS for Mapbox
     crs_mapbox <- 3857
 
-    if (check_sf(bbox)) {
+    if (is_sf(bbox)) {
       bbox <- sf::st_bbox(bbox)
     }
 
@@ -347,3 +347,8 @@ purrr::map(
 ### Polygon data (e.g. zoning, housing characteristics)
 
 ### Point data (e.g. crashes, shootings, citations)
+
+```{r}
+
+```
+

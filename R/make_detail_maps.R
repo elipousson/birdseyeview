@@ -15,7 +15,7 @@
 #' @rdname make_detail_map
 #' @inheritParams overedge::get_paper
 #' @export
-#' @importFrom overedge check_sf_list check_sf as_sf st_bbox_ext check_bbox
+#' @importFrom overedge is_sf_list is_sf as_sf st_bbox_ext is_bbox
 #'   sf_bbox_asp get_paper
 #' @importFrom usethis ui_stop
 make_detail_map <- function(detail,
@@ -51,15 +51,15 @@ make_detail_map <- function(detail,
                             below = NULL,
                             above = NULL,
                             ...) {
-  if (overedge::check_sf_list(detail)) {
+  if (overedge::is_sf_list(detail)) {
     batch <- length(detail) # list column with data
-  } else if (overedge::check_sf(detail)) {
+  } else if (overedge::is_sf(detail)) {
     detail <- list(overedge::as_sf(detail)) # coercible sf object in list length 1
     # TODO: Should this be a named list, e.g. list("data" = overedge::as_sf(detail))
     batch <- 1
   } else {
     # data frame with nested list column named data (produced by group_by then group_nest using keep_all = TRUE)
-    if (("data" %in% names(detail)) && overedge::check_sf_list(detail$data)) {
+    if (("data" %in% names(detail)) && overedge::is_sf_list(detail$data)) {
       # FIXME: This may not be preferred in all cases
       detail <- detail$data
       batch <- length(detail)
@@ -88,7 +88,7 @@ make_detail_map <- function(detail,
 
   # TODO: This could be a check_paper function or added to the existing get_paper function in overedge
   if (is.character(paper)) {
-    if (is.null(orientation) && (overedge::check_bbox(context_bbox))) {
+    if (is.null(orientation) && (overedge::is_bbox(context_bbox))) {
       orientation <- overedge::sf_bbox_asp(bbox = context_bbox, orientation = TRUE)
     } else if (is.null(orientation)) {
       orientation <- "landscape"

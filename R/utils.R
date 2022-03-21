@@ -22,13 +22,12 @@ check_class <- function(x, check = NULL) {
 #' @noRd
 #' @importFrom dplyr group_by
 #' @importFrom usethis ui_stop
-group_by_col <- function(data, groupname_col = NULL) {
-  if (!is.null(groupname_col) && !is.null(data)) {
-
-    if (groupname_col %in% names(data)) {
-      dplyr::group_by(data, .data[[groupname_col]])
+group_by_col <- function(data, col = NULL) {
+  if (!is.null(col) && !is.null(data)) {
+    if (col %in% names(data)) {
+      dplyr::group_by(data, .data[[col]])
     } else {
-      usethis::ui_stop("The provided data does not have a column matching this groupname_col ({usethis::ui_value(groupname_col)}).")
+      usethis::ui_stop("The provided data does not have a column matching {usethis::ui_value(col)} to use with group_by().")
     }
   } else {
     data

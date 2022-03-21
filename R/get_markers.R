@@ -46,7 +46,7 @@ get_markers <- function(data,
     if (is.data.frame(group_meta) && !is.null(groupname_col)) {
       data <-
         dplyr::left_join(data, group_meta, by = groupname_col)
-    } else if (check_sf(group_meta) && check_sf(data)) {
+    } else if (is_sf(group_meta) && is_sf(data)) {
       data <-
         sf::st_join(x = data, y = group_meta, join = group_join)
     }

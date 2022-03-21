@@ -19,10 +19,11 @@
 layer_group_data <- function(data,
                              mapping = NULL,
                              groupname_col = "group",
+                             label_col = "name",
                              geom = "sf",
                              basemap = FALSE,
                              palette = NULL,
-                             aesthetics = "color",
+                             aesthetics = "fill",
                              ...) {
   geom_type <- overedge::st_geom_type(x = data)
 
@@ -48,13 +49,16 @@ layer_group_data <- function(data,
     mapping <- modify_mapping(mapping = mapping, fill = groupname_col)
   }
 
+  layer_params <- rlang::list2(...)
+
   group_layers <- purrr::map(
     nested$data,
     ~ overedge::layer_location_data(
-      mapping = mapping,
       data = .x,
+      mapping = mapping,
       geom = geom,
-      ...
+      label_col = label_col,
+      !!!layer_params
     )
   )
 

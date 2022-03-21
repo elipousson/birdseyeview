@@ -13,7 +13,7 @@
 #' @rdname tbl_marker_key
 #' @export
 #' @importFrom dplyr mutate row_number
-#' @importFrom overedge check_sf
+#' @importFrom overedge is_sf
 #' @importFrom sf st_drop_geometry
 #' @importFrom gt gt
 tbl_marker_key <- function(data,
@@ -33,7 +33,7 @@ tbl_marker_key <- function(data,
     )
   }
 
-  if (overedge::check_sf(data)) {
+  if (overedge::is_sf(data)) {
     data <- sf::st_drop_geometry(data)
   }
 

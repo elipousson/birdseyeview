@@ -20,7 +20,7 @@
 #' @export
 #' @importFrom ggplot2 aes
 #' @importFrom smoothr smooth
-#' @importFrom overedge layer_location_data check_sf layer_mask layer_neatline get_location
+#' @importFrom overedge layer_location_data is_sf layer_mask layer_neatline get_location
 layer_show_location <-
   function(mapping = ggplot2::aes(),
            data = NULL,
@@ -96,7 +96,7 @@ layer_show_location <-
         )
     }
 
-    if (overedge::check_sf(mask, ext = TRUE)) {
+    if (overedge::is_sf(mask, ext = TRUE)) {
       mask_layer <-
         overedge::layer_mask(
           data = data,

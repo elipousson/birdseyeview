@@ -19,7 +19,7 @@
 #' @aliases layer_location_context
 #' @family layer
 #' @export
-#' @importFrom overedge check_sf layer_location_data layer_neatline
+#' @importFrom overedge is_sf layer_location_data layer_neatline
 #' @importFrom sf st_crs
 #' @importFrom ggplot2 theme_void
 layer_show_context <- function(data = NULL,
@@ -31,7 +31,7 @@ layer_show_context <- function(data = NULL,
                                crs = NULL,
                                neatline = TRUE,
                                ...) {
-  if (overedge::check_sf(data)) {
+  if (overedge::is_sf(data)) {
     if (is.null(crs)) {
       crs <- sf::st_crs(data)
     }
@@ -42,14 +42,14 @@ layer_show_context <- function(data = NULL,
     location_layer <- data
   }
 
-  check_context <- overedge::check_sf(context)
-  if (check_context) {
+  is_context <- overedge::is_sf(context)
+  if (is_context) {
     context_layer <- overedge::layer_location_data(data = context, fill = context_aes$fill, color = context_aes$color, alpha = context_aes$alpha, crs = crs)
   } else if ("gg" %in% class(context)) {
     context_layer <- context
   }
 
-  if (neatline && check_context) {
+  if (neatline && is_context) {
     neatline_layer <-
       list(
         overedge::layer_neatline(data = context, color = NA, bgcolor = "none", crs = crs),

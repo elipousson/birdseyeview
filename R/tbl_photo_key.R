@@ -19,7 +19,7 @@
 #'   image_height columns.
 #' @md
 #' @export
-#' @importFrom overedge check_sf get_asp
+#' @importFrom overedge is_sf get_asp
 #' @importFrom sf st_drop_geometry
 #' @importFrom dplyr mutate case_when filter select row_number
 #' @importFrom usethis ui_stop
@@ -35,7 +35,7 @@ tbl_photo_key <- function(data,
                           title_align = "right",
                           number = FALSE,
                           orientation = NULL) {
-  if (overedge::check_sf(data)) {
+  if (overedge::is_sf(data)) {
     data <- sf::st_drop_geometry(data)
   }
 

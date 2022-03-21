@@ -103,6 +103,9 @@ get_paper if rows or cols is greater than 1; defaults to \code{NULL}.}
 line length is planned but not yet implemented. Default: \code{NULL} (equivalent
 to "none").}
 
+\item{gutter}{Gutter distance in units. Gutter is used as the spacing between
+rows and columns (variable spacing is not currently supported); defaults to 0.}
+
 \item{neatline_params}{List with dist, diag_ratio, color, size, and expand
 passed on to layer_neatline.}
 
