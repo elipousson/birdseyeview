@@ -88,7 +88,7 @@ group_data_pal <- function(data,
   data <-
     group_by_col(
       data = data,
-      groupname_col = groupname_col
+      col = groupname_col
     )
 
   if (is.null(n)) {

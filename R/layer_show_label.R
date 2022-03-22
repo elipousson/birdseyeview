@@ -50,7 +50,7 @@ layer_show_label <- function(data,
   }
 
   if (union) {
-    data <- group_by_col(data = data, groupname_col = label_col) %>%
+    data <- group_by_col(data = data, col = label_col) %>%
       dplyr::summarise(geometry = sf::st_union(geometry))
   }
 

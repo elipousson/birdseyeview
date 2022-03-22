@@ -23,7 +23,7 @@ tbl_marker_key <- function(data,
                            color = FALSE,
                            palette = NULL) {
   # FIXME: Finish adding color and palette support
-  data <- group_by_col(data, groupname_col = groupname_col)
+  data <- group_by_col(data, col = groupname_col)
 
   if (is.null(number_col) && !("number" %in% names(data))) {
     number_col <- "number"

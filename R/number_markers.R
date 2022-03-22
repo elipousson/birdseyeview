@@ -41,7 +41,7 @@ number_markers <- function(data, groupname_col = NULL, number = TRUE, sort = "lo
   }
 
   if (!is.null(groupname_col)) {
-    data <- group_by_col(data, groupname_col = groupname_col)
+    data <- group_by_col(data, col = groupname_col)
     by_group <- TRUE
   } else {
     by_group <- FALSE

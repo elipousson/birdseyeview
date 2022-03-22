@@ -27,7 +27,7 @@ layer_group_data <- function(data,
                              ...) {
   geom_type <- overedge::st_geom_type(x = data)
 
-  data <- group_by_col(data = data, groupname_col = groupname_col)
+  data <- group_by_col(data = data, col = groupname_col)
   nested <- dplyr::group_nest(data, keep = TRUE)
 
   if ((geom_type$POINTS || geom_type$LINESTRINGS) && !("color" %in% aesthetics)) {
@@ -35,11 +35,6 @@ layer_group_data <- function(data,
   } else if (geom_type$POLYGONS && !("fill" %in% aesthetics)) {
     usethis::ui_warn("Your data has {usethis::ui_value(geom_type$TYPES)} geometry which is typically used with a 'fill' aesthetic mapping.")
   }
-
-  # FIXME: This is the older method that is replaced by group_by_col
-  # if (!is.null(groupname_col)) {
-  #   data <- dplyr::group_by(data, {{ groupname_col }})
-  # }
 
   if (("color" %in% aesthetics) && !("color" %in% names(mapping))) {
     mapping <- modify_mapping(mapping = mapping, color = groupname_col)
