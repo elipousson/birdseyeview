@@ -13,6 +13,8 @@ make_mapbox_basemap(
   basemap = TRUE,
   neatline = TRUE,
   expand = TRUE,
+  mapbox_logo = TRUE,
+  attribution = TRUE,
   ...
 )
 
@@ -24,6 +26,8 @@ layer_show_mapbox(
   basemap = FALSE,
   neatline = FALSE,
   expand = FALSE,
+  mapbox_logo = TRUE,
+  attribution = TRUE,
   ...
 )
 }

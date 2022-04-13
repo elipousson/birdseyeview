@@ -31,6 +31,8 @@ make_mapbox_basemap <-
            basemap = TRUE,
            neatline = TRUE,
            expand = TRUE,
+           mapbox_logo = TRUE,
+           attribution = TRUE,
            ...) {
 
     # Set appropriate CRS for Mapbox
@@ -53,7 +55,9 @@ make_mapbox_basemap <-
           area = bbox,
           map_style = map_style,
           scale_ratio = scale_ratio,
-          mapbox_api_access_token = access_token
+          mapbox_api_access_token = access_token,
+          mapbox_logo = mapbox_logo,
+          attribution = attribution
         )
       )
 
@@ -88,6 +92,8 @@ layer_show_mapbox <- function(data,
                               basemap = FALSE,
                               neatline = FALSE,
                               expand = FALSE,
+                              mapbox_logo = TRUE,
+                              attribution = TRUE,
                               ...) {
   make_mapbox_basemap(
     data = data,
@@ -97,6 +103,8 @@ layer_show_mapbox <- function(data,
     basemap = basemap,
     neatline = neatline,
     expand = expand,
+    mapbox_logo = mapbox_logo,
+    attribution = attribution,
     ...
   )
 }

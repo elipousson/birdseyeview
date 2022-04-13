@@ -13,25 +13,36 @@ check_class <- function(x, check = NULL) {
   any(check %in% class(x))
 }
 
-#' Group by column name if present
+#' Group and sort data by a column
 #'
-#' Group is groupname_col is not NULL and is present in data. Stop if name is not present and data is not NULL.
+#' Group is col is not NULL and is present in data. Stop if name is not present
+#' and data is not NULL.
 #'
 #' @param data Data to group
-#' @param groupname_col Column name to group by, Default: NULL
+#' @param groupname_col Column name to group by, Default: `NULL`
+#' @param sort If `TRUE`, sort data by col using [dplyr::arrange]. Defaults to `TRUE`
+#' @param ... Parameters passed to [dplyr::group_by] if data is not `NULL` and col is `NULL`.
 #' @noRd
 #' @importFrom dplyr group_by
 #' @importFrom usethis ui_stop
-group_by_col <- function(data, col = NULL) {
+group_by_col <- function(data, col = NULL, sort = TRUE, ...) {
   if (!is.null(col) && !is.null(data)) {
+
+    if (sort) {
+      data <- dplyr::arrange(data, col)
+    }
+
     if (col %in% names(data)) {
-      dplyr::group_by(data, .data[[col]])
+      data <- dplyr::group_by(data, .data[[col]])
     } else {
       usethis::ui_stop("The provided data does not have a column matching {usethis::ui_value(col)} to use with group_by().")
     }
-  } else {
-    data
+  } else if (!is.null(data) && is.null(col)) {
+    data <- dplyr::arrange(data, ...)
+    data <- dplyr::group_by(data, ...)
   }
+
+  return(data)
 }
 
 #' Add column to data if not present

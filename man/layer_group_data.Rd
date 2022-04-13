@@ -32,7 +32,7 @@ plot. You must supply \code{mapping} if there is no plot mapping.}
 pass to any text geom.}
 
 \item{geom}{ggplot2 geom to use, Default: 'sf'. Options include "sf"
-(geom_sf), "icon" (geom_sf_icon), "text" (geom_sf_text), "label"
+(geom_sf), "icon" (layer_icon / geom_sf_icon), "text" (geom_sf_text), "label"
 (geom_sf_label), "textsf", "labelsf", "text_repel", and "label_repel".}
 
 \item{...}{Additional parameters passed to \code{overedge::layer_location_data}}

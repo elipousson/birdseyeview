@@ -3,6 +3,7 @@
 \name{scale_group_data}
 \alias{scale_group_data}
 \alias{group_data_pal}
+\alias{get_group_data_pal_scale}
 \title{Create discrete fill and color scales for grouped data}
 \usage{
 scale_group_data(
@@ -25,6 +26,8 @@ group_data_pal(
   n = NULL,
   direction = 1
 )
+
+get_group_data_pal_scale(data, groupname_col = NULL, palette = NULL, ...)
 }
 \arguments{
 \item{...}{

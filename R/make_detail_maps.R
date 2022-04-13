@@ -262,7 +262,7 @@ make_section_map <- function(section,
 
 
   # FIXME: This is a work around but not ideal
-  # if (overedge::st_geom_type(section_combine, check = "MULTIPOINT")) {
+  # if (overedge::is_geom_type(section_combine, check = "MULTIPOINT")) {
   #  section_combine <- sf::st_cast(overedge::st_buffer_ext(section_combine, dist = 1), to = "POLYGON")
   #}
 
@@ -291,7 +291,9 @@ make_section_map <- function(section,
       map_style = map_style,
       scale = scale,
       access_token = access_token,
-      basemap = TRUE
+      basemap = TRUE,
+      mapbox_logo = FALSE,
+      attribution = FALSE
     )
 
   sect_params <- rlang::list2(...)

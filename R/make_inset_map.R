@@ -65,46 +65,66 @@ make_inset_map <-
         )
     }
 
-    # FIXME: This is an incomplete implementation of a scale factor for an inset map
-    # top, bottom, left, and right probably should all be based on scale as well
-    top <- 0.5
-    bottom <- 0.5
-    left <- 0.5
-    right <- 0.5
-    width <- 0.25
+    map_position <-
+      get_inset_position(
+        scale = scale,
+        position = position,
+        nudge_x = nudge_x,
+        nudge_y = nudge_y
+        )
 
-    if (is.numeric(scale)) {
-      width <- width * scale
-    }
-
-    if (grepl("top", position)) {
-      top <- 1
-      bottom <- bottom + width
-    } else if (grepl("bottom", position)) {
-      top <- width
-      bottom <- 0
-    }
-
-    if (grepl("left", position)) {
-      left <- 0
-      right <- width
-    } else if (grepl("right", position)) {
-      left <- 1 - width
-      right <- 1
-    }
-
-    left <- left + nudge_x
-    right <- right + nudge_x
-    top <- top + nudge_y
-    bottom <- bottom + nudge_y
 
     map +
       patchwork::inset_element(
         p = inset,
-        left = left,
-        bottom = bottom,
-        right = right,
-        top = top,
+        left = map_position$left,
+        bottom = map_position$bottom,
+        right = map_position$right,
+        top = map_position$top,
         align_to = "full"
       )
   }
+
+#' @noRd
+get_inset_position <- function(scale = 1, position = NULL, nudge_x = 0, nudge_y = 0) {
+
+  # FIXME: This is an incomplete implementation of a scale factor for an inset map
+  # top, bottom, left, and right probably should all be based on scale as well
+  top <- 0.5
+  bottom <- 0.5
+  left <- 0.5
+  right <- 0.5
+  width <- 0.25
+
+  if (is.numeric(scale)) {
+    width <- width * scale
+  }
+
+  if (grepl("top", position)) {
+    top <- 1
+    bottom <- bottom + width
+  } else if (grepl("bottom", position)) {
+    top <- width
+    bottom <- 0
+  }
+
+  if (grepl("left", position)) {
+    left <- 0
+    right <- width
+  } else if (grepl("right", position)) {
+    left <- 1 - width
+    right <- 1
+  }
+
+  left <- left + nudge_x
+  right <- right + nudge_x
+  top <- top + nudge_y
+  bottom <- bottom + nudge_y
+
+  list(
+    "top" = top,
+    "right" = right,
+    "bottom" = bottom,
+    "left" = left
+  )
+}

@@ -1,13 +1,13 @@
 #' Add a marker layer to a map with or without numbered markers
 #'
 #' If get is `TRUE`, groupname_col, group_meta, crs, and fn is all passed on to
-#' get_markers.
+#' [overedge::make_markers]
 #'
 #' The number parameter is not currently supported so the number_col parameter
 #' is not implemented.
 #'
-#' @inheritParams get_markers
-#' @param get If `TRUE`, pass data to get_markers.
+#' @inheritParams overedge::make_markers
+#' @param get If `TRUE`, pass data to [overedge::make_markers]
 #' @param number If `TRUE`, number markers using [layer_number_markers()] (not
 #'   currently supported)
 #' @param style Style; defaults to `NULL` for [layer_show_markers()] (supports
@@ -44,7 +44,7 @@ layer_show_markers <- function(data,
                                ...) {
   if (get) {
     data <-
-      get_markers(
+      overedge::make_markers(
         data = data,
         groupname_col = groupname_col,
         group_meta = group_meta,
@@ -53,7 +53,7 @@ layer_show_markers <- function(data,
       )
   }
 
-  if (overedge::st_geom_type(x = data)$POINTS) {
+  if (overedge::is_geom_type(x = data)$POINTS) {
     if (!is.null(groupname_col)) {
       mapping <-
         modify_mapping(
@@ -91,7 +91,7 @@ layer_show_markers <- function(data,
 #' @name layer_number_markers
 #' @param number_col Name of column with numbers; defaults to NULL.
 #' @param size Marker size, Default: 5
-#' @inheritParams number_markers
+#' @inheritParams overedge::number_features
 #' @param ... Additional parameters passed to `overedge::layer_location_data`
 #'   (include label.size, label.padding, and label.r to define alternate style)
 #' @export
@@ -106,6 +106,7 @@ layer_number_markers <- function(data,
                                  mapping = NULL,
                                  number_col = NULL,
                                  groupname_col = NULL,
+                                 number_by = FALSE,
                                  size = 5,
                                  style = "roundrect",
                                  geom = "label",
@@ -114,7 +115,13 @@ layer_number_markers <- function(data,
                                  scale = NULL,
                                  ...) {
   if (is.null(number_col)) {
-    data <- number_markers(data = data, groupname_col = groupname_col, sort = sort, desc = desc)
+
+    if (number_by) {
+      data <- overedge::number_features(data = data, col = groupname_col, sort = sort, desc = desc)
+    } else {
+      data <- overedge::number_features(data = data, col = NULL, sort = sort, desc = desc)
+    }
+
     number_col <- "number"
   }
 

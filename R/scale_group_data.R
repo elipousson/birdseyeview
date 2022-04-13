@@ -121,3 +121,33 @@ group_data_pal <- function(data,
 
   return(group_palette)
 }
+
+
+
+#' @name get_group_data_pal_scale
+#' @rdname scale_group_data
+#' @export
+get_group_data_pal_scale <-
+  function(data, groupname_col = NULL, palette = NULL, ...) {
+    group_palette <-
+      group_data_pal(
+        data = data,
+        groupname_col = groupname_col,
+        palette = palette,
+        ...
+      )
+
+    group_scale <-
+      scale_group_data(
+        data = data,
+        groupname_col = groupname_col,
+        palette = palette,
+        ...
+      )
+
+    return(list(
+      "names" = names(group_palette),
+      "palette" = group_palette,
+      "scale" = group_scale
+    ))
+  }

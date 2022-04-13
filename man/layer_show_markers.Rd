@@ -26,6 +26,7 @@ layer_number_markers(
   mapping = NULL,
   number_col = NULL,
   groupname_col = NULL,
+  number_by = FALSE,
   size = 5,
   style = "roundrect",
   geom = "label",
@@ -36,20 +37,24 @@ layer_number_markers(
 )
 }
 \arguments{
-\item{data}{Data with markers, passed to data parameter of \code{\link[overedge:get_location_data]{overedge::get_location_data()}}}
+\item{data}{Data with markers, passed to data parameter of
+\code{\link[overedge:get_location_data]{get_location_data()}}}
 
 \item{style}{Style; defaults to \code{NULL} for \code{\link[=layer_show_markers]{layer_show_markers()}} (supports
 "facet"); defaults to "roundrect" for \code{\link[=layer_number_markers]{layer_number_markers()}},}
 
-\item{get}{If \code{TRUE}, pass data to get_markers.}
+\item{get}{If \code{TRUE}, pass data to \link[overedge:make_markers]{overedge::make_markers}}
 
-\item{groupname_col}{Group column name, used to join group metadata if group_meta is a non-spatial data frame; Default: \code{NULL}}
+\item{groupname_col}{Group column name, used to join group metadata if
+group_meta is a non-spatial data frame; Default: \code{NULL}}
 
-\item{group_meta}{Group metadata as a data frame or sf object that intersect with markers; Default: \code{NULL}}
+\item{group_meta}{Group metadata as a data frame or sf object that intersect
+with markers; Default: \code{NULL}}
 
 \item{crs}{Coordinate reference system for markers, Default: \code{NULL}}
 
-\item{fn}{Function to apply to data before results; gives warning if data is grouped; Default: \code{NULL}}
+\item{fn}{Function to apply to data before results; gives warning if data is
+grouped; Default: \code{NULL}}
 
 \item{number}{If \code{TRUE}, number markers using \code{\link[=layer_number_markers]{layer_number_markers()}} (not
 currently supported)}
@@ -61,15 +66,16 @@ currently supported)}
 
 \item{size}{Marker size, Default: 5}
 
-\item{desc}{If \code{TRUE}, sort descending; set to \code{FALSE} if sort is "lon" and
-TRUE is sort is "lat" or any other value, default \code{NULL}}
+\item{sort}{Sort column name, Default: "dist_xmin_ymax".}
+
+\item{desc}{If \code{TRUE}, sort descending; default \code{FALSE}.}
 }
 \value{
 ggplot2 layers
 }
 \description{
 If get is \code{TRUE}, groupname_col, group_meta, crs, and fn is all passed on to
-get_markers.
+\link[overedge:make_markers]{overedge::make_markers}
 }
 \details{
 The number parameter is not currently supported so the number_col parameter

@@ -77,7 +77,7 @@
 #' @aliases layer_show_mark
 #' @export
 #' @importFrom ggplot2 unit aes
-#' @importFrom overedge as_sf
+#' @importFrom overedge as_sf st_cast_ext st_center
 #' @importFrom rlang as_function
 #' @importFrom utils modifyList
 layer_show_mark <- function(data,
@@ -116,7 +116,7 @@ layer_show_mark <- function(data,
   stat <- "sf_coordinates"
 
   if (cast) {
-    data <- st_cast_ext(x = data)
+    data <- overedge::st_cast_ext(x = data)
   } else {
     sf::st_geometry(data) <- overedge::st_center(x = data)$sfc
   }

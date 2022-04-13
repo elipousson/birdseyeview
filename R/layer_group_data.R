@@ -25,7 +25,7 @@ layer_group_data <- function(data,
                              palette = NULL,
                              aesthetics = "fill",
                              ...) {
-  geom_type <- overedge::st_geom_type(x = data)
+  geom_type <- overedge::is_geom_type(x = data)
 
   data <- group_by_col(data = data, col = groupname_col)
   nested <- dplyr::group_nest(data, keep = TRUE)

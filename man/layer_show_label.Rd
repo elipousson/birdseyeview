@@ -43,6 +43,11 @@ and a full edge can be returned.}
 meters. Use negative values for an inside edge or positive numbers for an
 outside edge.}
 
+\item{unit}{Units for buffer. Supported options include "meter", "foot",
+"kilometer", and "mile", "nautical mile" Common abbreviations (e.g. "km"
+instead of "kilometer") are also supported. Distance in units is converted
+to units matching GDAL units for x; defaults to "meter"}
+
 \item{...}{Additional parameters passed to \link[overedge:layer_location_data]{overedge::layer_location_data}}
 }
 \description{

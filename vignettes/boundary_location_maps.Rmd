@@ -131,7 +131,8 @@ params$map$block_asp <-
 params$bbox_paper <-
   st_bbox_ext(
     x = params$bbox,
-    asp = params$map$block_asp
+    asp = params$map$block_asp,
+    class = "bbox"
   )
 ```
 
@@ -209,7 +210,8 @@ basemap_mapbox <-
 
 ### Streets data
 
-```{r layer_streets}
+```{r layer_msa_streets, eval = FALSE}
+# FIXME: Not sure why this is failing but it is concerning
 layer_msa_streets <-
   # NOTE: This layer could be replicated using overedge along but is isn't essential
   mapbaltimore::layer_area_streets(
@@ -218,7 +220,10 @@ layer_msa_streets <-
     msa = TRUE,
     size = 0.25
   )
+```
 
+
+```{r layer_streets}
 layer_location_streets <-
   layer_location_data(
     data = "streets",
@@ -227,7 +232,7 @@ layer_location_streets <-
   )
 ```
 
-```{r alternate_basemap}
+```{r alternate_basemap, eval = FALSE}
 basemap_alternate <-
   ggplot() +
   layer_location_data(
@@ -252,9 +257,11 @@ basemap_mapbox +
     color = "gray20",
     linetype = "solid"
   ) +
+  # FIXME: Why is this broken now!?!
   layer_location_data(
     data = area,
     geom = "label",
+    label_col = "name",
     mapping = aes(label = name),
     size = 3,
     color = "black"

@@ -43,7 +43,7 @@ plot. You must supply \code{mapping} if there is no plot mapping.}
 
 \item{type}{Type of location to return. Type can be an sf object, e.g. a data
 frame with multiple neighborhoods or a character string that can be passed
-to \code{get_location_data}. If index is provided, character can also be a
+to \link[overedge]{get_location_data}. If index is provided, character can also be a
 character string to match the name of a list.}
 
 \item{name}{Location name to return.}
@@ -52,8 +52,8 @@ character string to match the name of a list.}
 match the class of the id_col for type.}
 
 \item{location}{An address, bounding box (\code{bbox}), or simple feature (\code{sf})
-object passed to \code{\link[sf]{st_filter}}. Any valid address or
-addresses are geocoded with \code{\link[tidygeocoder]{geo}}), converted to
+object passed to \link[sf:st_join]{sf::st_filter}. Any valid address or
+addresses are geocoded with \link[tidygeocoder:geo]{tidygeocoder::geo}, converted to
 a simple feature object, and then used as a spatial filter. \code{bbox} objects
 are converted using \code{\link[overedge:sf_bbox_misc]{sf_bbox_to_sf()}}. Multiple addresses are supported.}
 
@@ -71,7 +71,7 @@ id is provided.}
 pass to any text geom.}
 
 \item{union}{If \code{TRUE}, the location geometry is unioned with
-\code{\link[sf]{st_union}} and the names are combined into a single value.
+\link[sf:geos_combine]{sf::st_union} and the names are combined into a single value.
 Default: \code{FALSE}.}
 
 \item{crs}{Coordinate reference system to return; defaults to NULL which
