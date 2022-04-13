@@ -109,6 +109,11 @@ and a full edge can be returned.</p></dd>
 <dd><p>Numeric. Distance to use for the edge. Default NULL
 meters. Use negative values for an inside edge or positive numbers for an
 outside edge.</p></dd>
+<dt>unit</dt>
+<dd><p>Units for buffer. Supported options include "meter", "foot",
+"kilometer", and "mile", "nautical mile" Common abbreviations (e.g. "km"
+instead of "kilometer") are also supported. Distance in units is converted
+to units matching GDAL units for x; defaults to "meter"</p></dd>
 <dt>...</dt>
 <dd><p>Additional parameters passed to <a href="https://rdrr.io/pkg/overedge/man/layer_location_data.html" class="external-link">overedge::layer_location_data</a></p></dd>
 </dl></div>
@@ -135,7 +140,8 @@ that would otherwise appear when using a theme legend.</p>
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.2.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a>
+2.0.2.</p>
   <p class="preferably">Using <a href="https://preferably.amirmasoudabdol.name/?source=footer" class="external-link">preferably</a> template.</p>
 </div>
 
