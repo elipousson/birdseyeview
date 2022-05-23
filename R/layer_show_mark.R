@@ -31,11 +31,11 @@
 #'   used, the length and order of vector provided to label_col and/or desc_col
 #'   must match that length and order of the data (after the fn is applied).
 #'
-#' @param data A sf, sfc, or bbox object that can be converted with
+#' @param data A `sf`, `sfc`, or `bbox` object that can be converted with
 #'   [overedge::as_sf]
 #' @param fn Function to apply to data before passing to geom, typically a
 #'   predicate or filter to define area for annotation. A filter can also be
-#'   passed to any of the ggforce functions using the filter aesthetic. Default:
+#'   passed to any of the {ggforce} functions using the filter aesthetic. Default:
 #'   NULL
 #' @param mapping Aesthetic mapping to pass to geom, Default: NULL
 #' @param cast If TRUE, cast MULTIPOLYGON and POLYGON data to POINT; defaults to
@@ -43,7 +43,8 @@
 #' @param expand defaults to ggplot2::unit(5, "mm")
 #' @param radius defaults to expand
 #' @param geom geom to use for layer ("rect", "circle", "ellipse", or "hull"),
-#'   Default: NULL
+#'   Default: `NULL`
+#' @param font,face,color Parameters passed to label.family, label.fontface, and label.colour. If `NULL`, set to match general defaults with [ggplot2::theme_get()]
 #' @param ... Additional parameters passed to ggforce annotation geoms.
 #' @examples
 #' \dontrun{
@@ -76,7 +77,7 @@
 #' @rdname layer_show_mark
 #' @aliases layer_show_mark
 #' @export
-#' @importFrom ggplot2 unit aes
+#' @importFrom ggplot2 unit aes theme_get
 #' @importFrom overedge as_sf st_cast_ext st_center
 #' @importFrom rlang as_function
 #' @importFrom utils modifyList
@@ -89,12 +90,27 @@ layer_show_mark <- function(data,
                             cast = TRUE,
                             expand = ggplot2::unit(5, "mm"),
                             radius = expand,
+                            family = NULL,
+                            face =  c("bold", "plain"),
+                            color = NULL,
                             ...) {
   data <- overedge::as_sf(data)
 
   if (!is.null(fn)) {
     fn <- rlang::as_function(fn)
     data <- fn(data)
+  }
+
+  if (is.null(family)) {
+    family <- ggplot2::theme_get()$text$family
+  }
+
+  if (is.null(face)) {
+    face <- ggplot2::theme_get()$text$face
+  }
+
+  if (is.null(color)) {
+    color <- ggplot2::theme_get()$text$color
   }
 
   check_pkg_installed("ggforce")
@@ -125,10 +141,34 @@ layer_show_mark <- function(data,
 
   mark_layer <-
     switch(geom,
-      "rect" = ggforce::geom_mark_rect(data = data, mapping = mapping, stat = stat, ...), # Annotate areas with rectangles
-      "circle" = ggforce::geom_mark_circle(data = data, mapping = mapping, stat = stat, ...), # Annotate areas with circles
-      "ellipse" = ggforce::geom_mark_ellipse(data = data, mapping = mapping, stat = stat, ...), # Annotate areas with ellipses
-      "hull" = ggforce::geom_mark_hull(data = data, mapping = mapping, stat = stat, ...) # Annotate areas with hulls
+      "rect" = ggforce::geom_mark_rect(
+        data = data, mapping = mapping,
+        label.family = family,
+        label.fontface = face,
+        label.colour = color,
+        stat = stat, ...
+      ), # Annotate areas with rectangles
+      "circle" = ggforce::geom_mark_circle(
+        data = data, mapping = mapping,
+        label.family = family,
+        label.fontface = face,
+        label.colour = color,
+        stat = stat, ...
+      ), # Annotate areas with circles
+      "ellipse" = ggforce::geom_mark_ellipse(
+        data = data, mapping = mapping,
+        label.family = family,
+        label.fontface = face,
+        label.colour = color,
+        stat = stat, ...
+      ), # Annotate areas with ellipses
+      "hull" = ggforce::geom_mark_hull(
+        data = data, mapping = mapping,
+        label.family = family,
+        label.fontface = face,
+        label.colour = color,
+        stat = stat, ...
+      ) # Annotate areas with hulls
     )
 
   return(mark_layer)

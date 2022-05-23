@@ -14,22 +14,25 @@ layer_show_mark(
   cast = TRUE,
   expand = ggplot2::unit(5, "mm"),
   radius = expand,
+  family = NULL,
+  face = c("bold", "plain"),
+  color = NULL,
   ...
 )
 }
 \arguments{
-\item{data}{A sf, sfc, or bbox object that can be converted with
+\item{data}{A \code{sf}, \code{sfc}, or \code{bbox} object that can be converted with
 \link[overedge:as_sf]{overedge::as_sf}}
 
 \item{fn}{Function to apply to data before passing to geom, typically a
 predicate or filter to define area for annotation. A filter can also be
-passed to any of the ggforce functions using the filter aesthetic. Default:
+passed to any of the {ggforce} functions using the filter aesthetic. Default:
 NULL}
 
 \item{mapping}{Aesthetic mapping to pass to geom, Default: NULL}
 
 \item{geom}{geom to use for layer ("rect", "circle", "ellipse", or "hull"),
-Default: NULL}
+Default: \code{NULL}}
 
 \item{cast}{If TRUE, cast MULTIPOLYGON and POLYGON data to POINT; defaults to
 TRUE.}
@@ -39,6 +42,8 @@ TRUE.}
 \item{radius}{defaults to expand}
 
 \item{...}{Additional parameters passed to ggforce annotation geoms.}
+
+\item{font, face, color}{Parameters passed to label.family, label.fontface, and label.colour. If \code{NULL}, set to match general defaults with \code{\link[ggplot2:theme_get]{ggplot2::theme_get()}}}
 }
 \description{
 Use \code{\link[ggforce:geom_mark_rect]{ggforce::geom_mark_rect()}}, \code{\link[ggforce:geom_mark_circle]{ggforce::geom_mark_circle()}},
