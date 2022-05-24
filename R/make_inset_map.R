@@ -71,7 +71,7 @@ make_inset_map <-
         position = position,
         nudge_x = nudge_x,
         nudge_y = nudge_y
-        )
+      )
 
 
     map +

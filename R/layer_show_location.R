@@ -79,7 +79,7 @@ layer_show_location <-
       )
 
     if (!is.null(label_geom)) {
-     # label_geom <- match.arg(label_geom, c("label", "text"))
+      # label_geom <- match.arg(label_geom, c("label", "text"))
 
       label_layer <-
         layer_show_label(

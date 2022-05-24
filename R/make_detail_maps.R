@@ -114,10 +114,10 @@ make_detail_map <- function(detail,
       )
   }
 
- # print(detail_paper$section_asp)
+  # print(detail_paper$section_asp)
 
   if (!is.null(detail_paper)) {
-    section_asp <-unique(detail_paper$section_asp)
+    section_asp <- unique(detail_paper$section_asp)
   }
 
   stopifnot(
@@ -264,7 +264,7 @@ make_section_map <- function(section,
   # FIXME: This is a work around but not ideal
   # if (overedge::is_geom_type(section_combine, check = "MULTIPOINT")) {
   #  section_combine <- sf::st_cast(overedge::st_buffer_ext(section_combine, dist = 1), to = "POLYGON")
-  #}
+  # }
 
   stopifnot(
     is.numeric(dist) || is.null(dist),

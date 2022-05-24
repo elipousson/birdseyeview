@@ -62,12 +62,12 @@ layer_show_markers <- function(data,
         )
     }
   } else if (!is.null(groupname_col)) {
-      mapping <-
-        modify_mapping(
-          mapping = mapping,
-          fill = groupname_col
-        )
-    }
+    mapping <-
+      modify_mapping(
+        mapping = mapping,
+        fill = groupname_col
+      )
+  }
 
   if (!is.null(style) && (style == "facet")) {
     list(
@@ -83,7 +83,7 @@ layer_show_markers <- function(data,
         ...
       ),
       scale
-      )
+    )
   }
 }
 
@@ -115,7 +115,6 @@ layer_number_markers <- function(data,
                                  scale = NULL,
                                  ...) {
   if (is.null(number_col)) {
-
     if (number_by) {
       data <- overedge::number_features(data = data, col = groupname_col, sort = sort, desc = desc)
     } else {

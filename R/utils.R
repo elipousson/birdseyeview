@@ -27,7 +27,6 @@ check_class <- function(x, check = NULL) {
 #' @importFrom usethis ui_stop
 group_by_col <- function(data, col = NULL, sort = TRUE, ...) {
   if (!is.null(col) && !is.null(data)) {
-
     if (sort) {
       data <- dplyr::arrange(data, col)
     }
