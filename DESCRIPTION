@@ -35,6 +35,7 @@ Remotes:
     anthonynorth/snapbox
 Suggests: 
     ggforce,
+    ggfx,
     knitr,
     rmarkdown
 RoxygenNote: 7.1.2

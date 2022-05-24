@@ -16,6 +16,10 @@ layer_show_label(
   clip = NULL,
   dist = NULL,
   unit = NULL,
+  drop_shadow = FALSE,
+  x_offset = 5,
+  y_offset = 5,
+  sigma = 0.5,
   ...
 )
 }
@@ -32,7 +36,7 @@ layer_show_label(
 
 \item{mapping}{Aesthetic mapping, Default: NULL}
 
-\item{union}{If TRUE, group by label_col and union geometry, Default: FALSE}
+\item{union}{If TRUE, group by label_col and union geometry, Default: \code{FALSE}}
 
 \item{clip}{Character string describing the part of the area to clip or
 remove. Options include c("top", "right", "bottom", "left", "topright",
@@ -47,6 +51,10 @@ outside edge.}
 "kilometer", and "mile", "nautical mile" Common abbreviations (e.g. "km"
 instead of "kilometer") are also supported. Distance in units is converted
 to units matching GDAL units for x; defaults to "meter"}
+
+\item{drop_shadow}{If \code{TRUE}, use \link[ggfx:with_shadow]{ggfx::with_shadow} to add a drop shadow to the label layer. Defaults to \code{FALSE}.}
+
+\item{x_offset, y_offset, sigma}{Parameters passed to ggfx::with_shadow if \code{drop_shadow = TRUE}.}
 
 \item{...}{Additional parameters passed to \link[overedge:layer_location_data]{overedge::layer_location_data}}
 }

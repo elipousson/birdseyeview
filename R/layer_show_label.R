@@ -21,7 +21,9 @@
 #' @param label_col Label column name
 #' @param geom A geom to use "text", "label", "textsf", "labelsf", "text_repel", or "label_repel"
 #' @param mapping Aesthetic mapping, Default: NULL
-#' @param union If TRUE, group by label_col and union geometry, Default: FALSE
+#' @param union If TRUE, group by label_col and union geometry, Default: `FALSE`
+#' @param drop_shadow If `TRUE`, use [ggfx::with_shadow] to add a drop shadow to the label layer. Defaults to `FALSE`.
+#' @param x_offset,y_offset,sigma Parameters passed to ggfx::with_shadow if `drop_shadow = TRUE`.
 #' @inheritParams overedge::st_clip
 #' @param ... Additional parameters passed to [overedge::layer_location_data]
 #' @seealso
@@ -43,6 +45,10 @@ layer_show_label <- function(data,
                              clip = NULL,
                              dist = NULL,
                              unit = NULL,
+                             drop_shadow = FALSE,
+                             x_offset = 5,
+                             y_offset = 5,
+                             sigma = 0.5,
                              ...) {
   if (!is.null(fn)) {
     fn <- rlang::as_function(fn)
@@ -77,6 +83,18 @@ layer_show_label <- function(data,
       )
   }
 
+  if (drop_shadow) {
+    label_layer <-
+      ggfx::with_shadow(
+        label_layer,
+        x_offset = x_offset,
+        y_offset = y_offset,
+        sigma = sigma
+      )
+  }
+
+
+  label_layer <-
   list(
     label_layer,
     ggplot2::guides(
@@ -85,4 +103,6 @@ layer_show_label <- function(data,
       )
     )
   )
+
+
 }

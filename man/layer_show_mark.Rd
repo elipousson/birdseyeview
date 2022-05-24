@@ -11,12 +11,16 @@ layer_show_mark(
   label_col = NULL,
   desc_col = NULL,
   geom = NULL,
-  cast = TRUE,
+  center = FALSE,
+  font_family = NULL,
+  font_face = c("bold", "plain"),
+  font_color = NULL,
   expand = ggplot2::unit(5, "mm"),
   radius = expand,
-  family = NULL,
-  face = c("bold", "plain"),
-  color = NULL,
+  drop_shadow = FALSE,
+  x_offset = 5,
+  y_offset = 5,
+  sigma = 0.5,
   ...
 )
 }
@@ -26,24 +30,42 @@ layer_show_mark(
 
 \item{fn}{Function to apply to data before passing to geom, typically a
 predicate or filter to define area for annotation. A filter can also be
-passed to any of the {ggforce} functions using the filter aesthetic. Default:
-NULL}
+passed to any of the {ggforce} functions using the filter aesthetic.
+Default: NULL}
 
 \item{mapping}{Aesthetic mapping to pass to geom, Default: NULL}
+
+\item{label_col}{Label column name}
 
 \item{geom}{geom to use for layer ("rect", "circle", "ellipse", or "hull"),
 Default: \code{NULL}}
 
-\item{cast}{If TRUE, cast MULTIPOLYGON and POLYGON data to POINT; defaults to
-TRUE.}
+\item{center}{If \code{FALSE}, use \link[overedge:st_cast_ext]{overedge::st_cast_ext} MULTIPOLYGON and
+POLYGON data to POINT; If \code{TRUE}, use \link[overedge:st_misc]{overedge::st_center} use centroid as
+the feature geometry. Defaults to FALSE.}
 
-\item{expand}{defaults to ggplot2::unit(5, "mm")}
+\item{font_family, font_face, font_color}{Parameters passed to label.family,
+label.fontface, and label.colour. If \code{NULL}, values are set to match
+\link[ggplot2:geom_text]{ggplot2::geom_label} defaults. Defaults to \code{NULL}.}
 
-\item{radius}{defaults to expand}
+\item{expand}{A numeric or unit vector of length one, specifying the
+expansion amount. Negative values will result in contraction instead. If the
+value is given as a numeric it will be understood as a proportion of the
+plot area width.}
 
-\item{...}{Additional parameters passed to ggforce annotation geoms.}
+\item{radius}{As \code{expand} but specifying the corner radius.}
 
-\item{font, face, color}{Parameters passed to label.family, label.fontface, and label.colour. If \code{NULL}, set to match general defaults with \code{\link[ggplot2:theme_get]{ggplot2::theme_get()}}}
+\item{drop_shadow}{If \code{TRUE}, use \link[ggfx:with_shadow]{ggfx::with_shadow} to add a drop shadow to the label layer. Defaults to \code{FALSE}.}
+
+\item{x_offset}{Parameters passed to ggfx::with_shadow if \code{drop_shadow = TRUE}.}
+
+\item{y_offset}{Parameters passed to ggfx::with_shadow if \code{drop_shadow = TRUE}.}
+
+\item{sigma}{Parameters passed to ggfx::with_shadow if \code{drop_shadow = TRUE}.}
+
+\item{...}{Additional parameters passed to \code{\link[ggforce:geom_mark_rect]{ggforce::geom_mark_rect()}},
+\code{\link[ggforce:geom_mark_circle]{ggforce::geom_mark_circle()}}, \code{\link[ggforce:geom_mark_ellipse]{ggforce::geom_mark_ellipse()}}, or
+\code{\link[ggforce:geom_mark_hull]{ggforce::geom_mark_hull()}} on to \code{\link[ggplot2:layer]{ggplot2::layer()}}}
 }
 \description{
 Use \code{\link[ggforce:geom_mark_rect]{ggforce::geom_mark_rect()}}, \code{\link[ggforce:geom_mark_circle]{ggforce::geom_mark_circle()}},
@@ -75,11 +97,11 @@ names for labels and/or descriptions
 \item Setting label_col and/or desc_col with the value of the label/description
 }
 
-If the first approach is used, label_col and desc_col can also can be
-created or modified by a function provided to the fn parameter. Otherwise,
-the columns must be present in the data to work. If the second approach is
-used, the length and order of vector provided to label_col and/or desc_col
-must match that length and order of the data (after the fn is applied).
+If the first approach is used, label_col and desc_col can also can be created
+or modified by a function provided to the fn parameter. Otherwise, the
+columns must be present in the data to work. If the second approach is used,
+the length and order of vector provided to label_col and/or desc_col must
+match that length and order of the data (after the fn is applied).
 }
 
 \examples{
