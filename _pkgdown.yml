@@ -1,0 +1,9 @@
+url: https://elipousson.github.io/birdseyeview/
+template:
+  bootstrap: 5
+reference:
+- title: Make and modify gt tables
+  contents:
+  - starts_with("tbl")
+  - starts_with("gt")
+

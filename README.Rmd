@@ -20,7 +20,9 @@ knitr::opts_chunk$set(
 [![Lifecycle: experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://lifecycle.r-lib.org/articles/stages.html#experimental)
 <!-- badges: end -->
 
-The goal of birdseyeview is to make it easy to create the types of maps, plots, and tables used for community plans. This package is designed to use the [overedge package](https://elipousson.github.io/overedge/) and data packages like [mapbaltimore](https://elipousson.github.io/mapbaltimore/) or [bcpss](https://elipousson.github.io/bcpss/) to create reproducible maps and tables for a range of needs.
+The goal of birdseyeview is to make it easy to create the types of maps, plots, and tables used for community plans.
+
+This package was initially designed to use the [overedge package](https://elipousson.github.io/overedge/) and data packages like [mapbaltimore](https://elipousson.github.io/mapbaltimore/) or [bcpss](https://elipousson.github.io/bcpss/) to create reproducible maps and tables for a range of needs. The {overedge} package has since been superseded by sfext, getdata, and maplayer. maplayer incorporated most of the mapping functions creating for birdseyeview. These duplicative functions were removed from birdseyeview in Setember 2022.
 
 ## Installation
 
@@ -34,15 +36,17 @@ remotes::install_github("elipousson/birdseyeview")
 
 ```{r setup}
 library(birdseyeview)
-library(overedge)
+library(getdata)
+library(sfext)
+library(maplayer)
 ```
 
 
 ### Make tables 
 
-```{r gt_geom_sf_rows}
+```{r gt_sf_rows}
 parks <-
-  get_location_data(
+  getdata::get_location_data(
     data = "parks",
     package = "mapbaltimore"
   )
@@ -52,12 +56,12 @@ parks %>%
   dplyr:::select(name, address, park_district, acres, geometry) %>%
   dplyr::group_by(park_district) %>%
   gt::gt() %>%
-  gt_geom_sf_rows(fill = "forestgreen", color = "lightgreen", size = 6)
+  gt_sf_rows(fill = "forestgreen", color = "lightgreen", size = 6)
 ```
 
 ```{r tbl_photo_key, eval = FALSE}
 park_photos <-
-  overedge::get_flickr_photos(
+  getdata::get_flickr_photos(
     user_id = "baltimoreheritage",
     tags = "druidhillpark",
     img_size = "m",
@@ -79,16 +83,17 @@ library(ggplot2)
 
 ```{r layer_show_context}
 ggplot() +
-  layer_show_context(
+  maplayer::layer_location_context(
     data = parks[245, ],
     fill = "green",
     context = parks,
-    context_aes = list(fill = "forestgreen", color = "gray60", alpha = 1)
+    context_params = list(fill = "forestgreen", color = "gray60", alpha = 1)
   )
 ```
 
 
-```{r make_group_layers}
+```{r make_group_layers, eval=FALSE}
+# make_group_layers has been dropped from birdseyeview but isn't available in maplayer yet
 park_district_layers <-
   make_group_layers(
     data = parks %>% sf::st_centroid(),
@@ -97,7 +102,7 @@ park_district_layers <-
   )
 
 clifton_district <-
-  get_location(
+  getdata::get_location(
     type = "park_districts",
     package = "mapbaltimore",
     name = "Clifton"

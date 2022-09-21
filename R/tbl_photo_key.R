@@ -1,8 +1,11 @@
 #' Create numbered photo key as a `gt` table (not working)
 #'
-#' Designed to work with the `overedge::read_sf_exif` function. More information on this approach here <https://elipousson.github.io/posts/2021-03-06-creating-a-key-map-for-photographs-with-r/>
+#' Designed to work with the `sfext::read_sf_exif` function. More information
+#' on this approach here
+#' <https://elipousson.github.io/posts/2021-03-06-creating-a-key-map-for-photographs-with-r/>
 #'
-#' Function naming convention inspired by the {gtsummary} package <https://www.danieldsjoberg.com/gtsummary/index.html>
+#' Function naming convention inspired by the {gtsummary} package
+#' <https://www.danieldsjoberg.com/gtsummary/index.html>
 #'
 #' @param data sf object or data frame with photo column containing the file
 #'   path or url for photos.
@@ -19,10 +22,10 @@
 #'   image_height columns.
 #' @md
 #' @export
-#' @importFrom overedge is_sf get_asp
+#' @importFrom sfext is_sf get_asp
 #' @importFrom sf st_drop_geometry
 #' @importFrom dplyr mutate case_when filter select row_number
-#' @importFrom usethis ui_stop
+#' @importFrom cli cli_abort
 #' @importFrom tidyselect everything all_of
 #' @importFrom gt gt cols_width px tab_style cell_text cells_body text_transform web_image local_image
 #' @importFrom purrr map
@@ -35,12 +38,12 @@ tbl_photo_key <- function(data,
                           title_align = "right",
                           number = FALSE,
                           orientation = NULL) {
-  if (overedge::is_sf(data)) {
+  if (sfext::is_sf(data)) {
     data <- sf::st_drop_geometry(data)
   }
 
   if (!is.null(asp)) {
-    asp <- overedge::get_asp(asp)
+    asp <- sfext::get_asp(asp)
   } else {
     asp <- 0.75
   }
@@ -59,7 +62,7 @@ tbl_photo_key <- function(data,
           .after = .data[[photo_col]]
         )
     } else if (!("orientation" %in% names(data))) {
-      usethis::ui_stop("Filtering images by orientation requires either an image_width and image_height column or an orientation column in the provided dataframe.")
+      cli::cli_abort("Filtering images by orientation requires either an image_width and image_height column or an orientation column in the provided dataframe.")
     }
 
     data <- data %>%

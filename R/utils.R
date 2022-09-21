@@ -24,7 +24,7 @@ check_class <- function(x, check = NULL) {
 #' @param ... Parameters passed to [dplyr::group_by] if data is not `NULL` and col is `NULL`.
 #' @noRd
 #' @importFrom dplyr group_by
-#' @importFrom usethis ui_stop
+#' @importFrom cli cli_abort
 group_by_col <- function(data, col = NULL, sort = TRUE, ...) {
   if (!is.null(col) && !is.null(data)) {
     if (sort) {
@@ -34,7 +34,7 @@ group_by_col <- function(data, col = NULL, sort = TRUE, ...) {
     if (col %in% names(data)) {
       data <- dplyr::group_by(data, .data[[col]])
     } else {
-      usethis::ui_stop("The provided data does not have a column matching {usethis::ui_value(col)} to use with group_by().")
+      cli::cli_abort("The provided data does not have a column matching {usethis::ui_value(col)} to use with group_by().")
     }
   } else if (!is.null(data) && is.null(col)) {
     data <- dplyr::arrange(data, ...)

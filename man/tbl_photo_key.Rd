@@ -40,8 +40,11 @@ dataframe already contains a column named "rowid".}
 image_height columns.}
 }
 \description{
-Designed to work with the \code{overedge::read_sf_exif} function. More information on this approach here \url{https://elipousson.github.io/posts/2021-03-06-creating-a-key-map-for-photographs-with-r/}
+Designed to work with the \code{sfext::read_sf_exif} function. More information
+on this approach here
+\url{https://elipousson.github.io/posts/2021-03-06-creating-a-key-map-for-photographs-with-r/}
 }
 \details{
-Function naming convention inspired by the {gtsummary} package \url{https://www.danieldsjoberg.com/gtsummary/index.html}
+Function naming convention inspired by the {gtsummary} package
+\url{https://www.danieldsjoberg.com/gtsummary/index.html}
 }

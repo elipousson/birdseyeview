@@ -6,7 +6,7 @@
 \alias{birdseyeview-package}
 \title{birdseyeview: Make Planning Maps, Tables, and Visualizations}
 \description{
-This package helps create maps, tables, and figures for planning documents using open spatial data. birdseyeview is designed to work with the overedge package and relies on sf, ggplot2, and gt.
+This package helps create maps, tables, and figures for planning documents using open spatial data. birdseyeview is designed to work with the sfext and maplayer packages and relies on sf, ggplot2, and gt.
 }
 \seealso{
 Useful links:

@@ -1,43 +1,44 @@
-Package: birdseyeview
 Type: Package
+Package: birdseyeview
 Title: Make Planning Maps, Tables, and Visualizations
 Version: 0.1.0
 Authors@R: 
     person("Eli", "Pousson", , "eli.pousson@gmail.com", role = c("aut", "cre"),
            comment = c(ORCID = "0000-0001-8280-1706"))
-Description: This package helps create maps, tables, and figures for planning documents using open spatial data. 
-    birdseyeview is designed to work with the overedge package and relies on sf, ggplot2, and gt.
+Description: This package helps create maps, tables, and figures for
+    planning documents using open spatial data.  birdseyeview is designed
+    to work with the sfext and maplayer packages and relies on sf,
+    ggplot2, and gt.
 License: MIT + file LICENSE
+URL: https://elipousson.github.io/birdseyeview/
+Imports: 
+    cli,
+    dplyr,
+    ggplot2,
+    glue,
+    gt,
+    magrittr,
+    purrr,
+    rlang,
+    sf,
+    sfext,
+    tibble,
+    tidyselect,
+    utils
+Suggests: 
+    forcats,
+    getdata (>= 0.1.0),
+    knitr,
+    maplayer (>= 0.1.0),
+    rmarkdown,
+    scales
+VignetteBuilder: 
+    knitr
+Remotes: 
+    elipousson/getdata,
+    elipousson/maplayer,
+    elipousson/sfext
 Encoding: UTF-8
 LazyData: true
-VignetteBuilder: knitr
-Imports: 
-    sf,
-    ggplot2,
-    overedge,
-    patchwork,
-    smoothr,
-    purrr,
-    gt,
-    dplyr,
-    tidyselect,
-    magrittr,
-    usethis,
-    rlang,
-    tibble,
-    tidygeocoder,
-    utils,
-    snapbox,
-    scales,
-    paletteer
-Remotes:
-    elipousson/overedge,
-    anthonynorth/snapbox
-Suggests: 
-    ggforce,
-    ggfx,
-    knitr,
-    rmarkdown
-RoxygenNote: 7.1.2
 Roxygen: list(markdown = TRUE)
-URL: https://elipousson.github.io/birdseyeview/
+RoxygenNote: 7.2.0.9000

@@ -16,17 +16,19 @@ tbl_marker_key(
 \arguments{
 \item{data}{Data frame or sf object with marker data}
 
-\item{title_col}{Title column name, Default: NULL}
+\item{title_col}{Title column name, Default: \code{NULL}}
 
-\item{groupname_col}{Group column name, Default: NULL}
+\item{groupname_col}{Group column name, Default: \code{NULL}}
 
-\item{number_col}{Number column name, Default: NULL. If NULL and data does
+\item{number_col}{Number column name, Default: \code{NULL}. If \code{NULL} and data does
 not contain a column named "number", add a number column created using
-\code{dplyr::row_number()} function.}
+\code{\link[dplyr:ranking]{dplyr::row_number()}} function.}
 
-\item{color}{If TRUE, apply a cell fill color to the group headings in the table (defined by groupname_col)}
+\item{color}{If \code{TRUE}, apply a cell fill color to the group headings in the
+table (defined by groupname_col)}
 
-\item{palette}{palete to use for the group heading fill colors (passed to \code{\link[=group_data_pal]{group_data_pal()}})}
+\item{palette}{palette to use for the group heading fill colors (passed to
+\code{\link[=group_data_pal]{group_data_pal()}})}
 }
 \description{
 Designed for use with maps created using \code{layer_show_markers()}
